@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="id" class="scroll-smooth" id="htmlTag">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- SEO -->
+  <title>SI JIMITIUS — Puskesmas Nelle</title>
+  <meta name="description" content="SI JIMITIUS — Sistem Informasi UKM Puskesmas Nelle untuk monitoring, pelaporan, dan pelayanan kesehatan masyarakat yang efisien dan transparan.">
+  <meta name="keywords" content="SI JIMITIUS, Puskesmas Nelle, UKM, Sistem Informasi Kesehatan, Kabupaten Sikka, Nusa Tenggara Timur">
+  <meta name="author" content="Puskesmas Nelle">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/arnoldjimmy115-bit/puskesmas-assets/main/hijau%20logo.png" />
+
+  <!-- Fonts (Optimized preload + preconnect) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#006b6d',
+            secondary: '#f2b643',
+            accent: '#a22e33',
+            dark: '#2f2f3b',
+            light: '#f9fafb'
+          },
+          fontFamily: {
+            heading: ['Poppins', 'sans-serif'],
+            body: ['Roboto', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Dark mode preload (prevent flicker) -->
+  <script>
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <!-- Leaflet (CSS) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+
+  <!-- Custom Styles -->
+  <style>
+    /* Small custom styles */
+    .hover-card { transition: all 0.4s ease; }
+    .hover-card:hover { transform: translateY(-6px) scale(1.03); box-shadow: 0 12px 32px rgba(0,0,0,0.12); }
+    .btn-animate { transition: all 0.28s ease; }
+    .btn-animate:hover { transform: scale(1.03); }
+    .header-transparent { background: rgba(0, 107, 109, 0.5); backdrop-filter: blur(8px); }
+    .header-solid { background: #006b6d; }
+    #mobileMenu { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    @keyframes pulse { 0%,100%{transform:scale(1);}50%{transform:scale(1.12);} }
+    .whatsapp-float { animation: pulse 2.2s infinite; }
+    #map { border-radius: 0.5rem; overflow: hidden; }
+    .wa-tooltip { right: 72px; bottom: 8px; }
+    .leaflet-popup-content { font-family: Poppins, Roboto, sans-serif; font-size: 14px; }
+    @keyframes fade-up { 0% { opacity: 0; transform: translateY(1.5rem); } 100% { opacity: 1; transform: translateY(0); } }
+    .animate-fade-up { animation: fade-up 0.8s ease-out forwards; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-400 { animation-delay: 0.4s; }
+  </style>
+
+  <style>
+    .swal2-popup.swal2-toast {
+      font-size: 0.8rem !important;
+      padding: 0.6rem 1rem !important;
+      border-radius: 0.5rem !important;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+    }
+    .swal2-toast .swal2-title {
+      font-weight: 500 !important;
+    }
+  </style>
+</head>
+
+<body class="font-body bg-light text-dark dark:bg-dark dark:text-light antialiased">
+
+  <!-- HEADER -->
+  <header id="mainHeader" class="fixed top-0 left-0 right-0 header-transparent shadow z-50 transition-colors" role="banner">
+    <div class="max-w-7xl mx-auto flex justify-between items-center h-16 px-6 text-white">
+      <div class="flex items-center gap-2">
+        <img src="https://raw.githubusercontent.com/arnoldjimmy115-bit/puskesmas-assets/main/putih%20logo.png" alt="Logo" class="w-8 h-8">
+        <span class="font-heading font-bold text-lg">SI JIMITIUS</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <nav class="hidden md:flex gap-6 text-sm font-medium">
+          <a href="#tentang">Tentang</a>
+          <a href="#ukm">UKM</a>
+          <a href="#dokumen">Dokumen</a>
+          <a href="#faq">FAQ</a>
+          <a href="#lokasi">Lokasi</a>
+          <a href="login.html" class="font-semibold text-secondary hover:text-white">Login</a>
+        </nav>
+
+        <!-- Mobile menu button -->
+        <button id="menuBtn" aria-label="Buka menu" class="md:hidden">
+          <i data-feather="menu"></i>
+        </button>
+
+        <!-- Dark mode toggle -->
+        <button id="darkToggle" aria-label="Ganti tema" class="ml-2 w-10 h-10 flex items-center justify-center rounded-full bg-secondary text-dark shadow-md hover:bg-accent hover:text-white">
+          <i data-feather="moon"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile dropdown -->
+    <div id="mobileMenu" class="hidden md:hidden bg-primary text-white px-6 py-4 space-y-3" role="navigation" aria-label="Mobile menu">
+      <a href="#tentang" class="block">Tentang</a>
+      <a href="#ukm" class="block">UKM</a>
+      <a href="#dokumen" class="block">Dokumen</a>
+      <a href="#faq" class="block">FAQ</a>
+      <a href="#lokasi" class="block">Lokasi</a>
+      <a href="login.html" class="block font-semibold text-secondary">Login</a>
+    </div>
+  </header>
+
+<!-- HERO SECTION -->
+<section id="home" class="relative flex flex-col items-center justify-center text-center pt-24 md:pt-32 pb-20 md:pb-28 
+bg-gradient-to-br from-primary via-dark to-accent text-white overflow-hidden">
+  
+  <!-- Subtle Glow (lembut, 1 saja) -->
+  <div class="absolute -top-32 -left-32 w-[350px] h-[350px] bg-primary/20 rounded-full blur-3xl"></div>
+  
+  <!-- Content -->
+  <div class="relative z-10 max-w-3xl mx-auto px-6">
+    <h1 class="font-heading text-3xl md:text-5xl lg:text-6xl mb-6 leading-snug text-white drop-shadow-md opacity-0 translate-y-6 animate-fade-up">
+      Optimalisasi Pengelolaan Program UKM <br>
+      melalui <span class="bg-clip-text text-transparent bg-gradient-to-r from-secondary to-accent font-bold">
+        SI JIMITIUS
+      </span> <br>
+      di UPT Puskesmas Nelle, Kabupaten Sikka
+    </h1>
+
+    <p class="text-sm md:text-lg text-gray-200 mb-8 opacity-0 translate-y-6 animate-fade-up delay-200">
+      Sistem Informasi Jaringan Integrasi Manajemen Intervensi Terpadu <br>
+      untuk mendukung pelayanan kesehatan masyarakat secara efisien dan transparan.
+    </p>
+
+    <div class="flex justify-center gap-4 flex-wrap opacity-0 translate-y-6 animate-fade-up delay-400">
+      <a href="login.html" 
+         class="px-6 py-3 rounded-lg font-semibold bg-primary text-white shadow-md hover:bg-secondary transition">
+        Masuk Sistem
+      </a>
+      <a href="#tentang" 
+         class="px-6 py-3 rounded-lg font-semibold border border-white/30 text-white hover:bg-white/10 transition">
+        Pelajari
+      </a>
+    </div>
+  </div>
+</section>
+
+
+  <!-- TENTANG -->
+  <section id="tentang" class="py-20 bg-light dark:bg-dark">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <h2 class="text-2xl font-heading text-primary">Tentang Kami</h2>
+      <div class="h-1 w-24 bg-gradient-to-r from-secondary to-accent mx-auto my-4 rounded"></div>
+      <p class="max-w-2xl mx-auto text-gray-600 dark:text-gray-300">
+        Puskesmas Nelle berkomitmen meningkatkan derajat kesehatan masyarakat melalui pelayanan UKM yang terintegrasi.
+        Dengan dukungan SI JIMITIUS, semua proses lebih efisien dan transparan.
+      </p>
+    </div>
+  </section>
+
+  <section id="ukm" class="py-20 bg-light dark:bg-dark">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-2xl font-heading text-primary text-center">Unit Kesehatan Masyarakat</h2>
+    <div class="h-1 w-24 bg-gradient-to-r from-secondary to-accent mx-auto my-4 rounded"></div>
+    <div class="grid md:grid-cols-3 gap-6 mt-8">
+
+      <!-- 1. Promosi Kesehatan / PIS-PK -->
+      <div class="hover-card bg-white dark:bg-gray-800 p-6 rounded flex flex-col items-center" data-aos="zoom-in">
+        <i data-feather="activity" class="w-10 h-10 text-primary mb-3"></i>
+        <h4 class="font-heading font-semibold">Promosi Kesehatan / PIS-PK</h4>
+        <p class="text-sm text-center">Edukasi, penyuluhan kesehatan & pendataan keluarga sehat.</p>
+      </div>
+
+      <!-- 2. KIA -->
+      <div class="hover-card bg-white dark:bg-gray-800 p-6 rounded flex flex-col items-center" data-aos="zoom-in">
+        <i data-feather="heart" class="w-10 h-10 text-primary mb-3"></i>
+        <h4 class="font-heading font-semibold">KIA</h4>
+        <p class="text-sm text-center">Pelayanan kesehatan ibu hamil, bersalin, nifas, bayi & anak.</p>
+      </div>
+
+      <!-- 3. Gizi -->
+      <div class="hover-card bg-white dark:bg-gray-800 p-6 rounded flex flex-col items-center" data-aos="zoom-in">
+        <i data-feather="pie-chart" class="w-10 h-10 text-primary mb-3"></i>
+        <h4 class="font-heading font-semibold">Gizi</h4>
+        <p class="text-sm text-center">Pemantauan status gizi, penyuluhan dan intervensi gizi.</p>
+      </div>
+
+      <!-- 4. Kesehatan Lingkungan -->
+      <div class="hover-card bg-white dark:bg-gray-800 p-6 rounded flex flex-col items-center" data-aos="zoom-in">
+        <i data-feather="droplet" class="w-10 h-10 text-primary mb-3"></i>
+        <h4 class="font-heading font-semibold">Kesehatan Lingkungan</h4>
+        <p class="text-sm text-center">Sanitasi lingkungan & pengendalian faktor risiko.</p>
+      </div>
+
+      <!-- 5. Pencegahan & Penanggulangan Penyakit -->
+      <div class="hover-card bg-white dark:bg-gray-800 p-6 rounded flex flex-col items-center" data-aos="zoom-in">
+        <i data-feather="shield" class="w-10 h-10 text-primary mb-3"></i>
+        <h4 class="font-heading font-semibold text-center">Pencegahan & Penanggulangan Penyakit</h4>
+        <p class="text-sm text-center">Covid, Imunisasi, DBD, Malaria, TB, HIV, ISPA, PTM, dll.</p>
+      </div>
+
+      <!-- 6. Usaha Kesehatan Sekolah (UKS) -->
+      <div class="hover-card bg-white dark:bg-gray-800 p-6 rounded flex flex-col items-center" data-aos="zoom-in">
+        <i data-feather="book" class="w-10 h-10 text-primary mb-3"></i>
+        <h4 class="font-heading font-semibold">UKS</h4>
+        <p class="text-sm text-center">Pembinaan kesehatan peserta didik & sekolah sehat.</p>
+      </div>
+
+      <!-- 7. Usaha Kesehatan Gigi Masyarakat (UKGM) -->
+      <div class="hover-card bg-white dark:bg-gray-800 p-6 rounded flex flex-col items-center" data-aos="zoom-in">
+        <i data-feather="smile" class="w-10 h-10 text-primary mb-3"></i>
+        <h4 class="font-heading font-semibold">UKGM</h4>
+        <p class="text-sm text-center">Pelayanan kesehatan gigi & mulut masyarakat.</p>
+      </div>
+
+      <!-- 8. Kesehatan Tradisional -->
+      <div class="hover-card bg-white dark:bg-gray-800 p-6 rounded flex flex-col items-center" data-aos="zoom-in">
+        <i data-feather="leaf" class="w-10 h-10 text-primary mb-3"></i>
+        <h4 class="font-heading font-semibold">Kesehatan Tradisional</h4>
+        <p class="text-sm text-center">Pendekatan tradisional & komplementer kesehatan.</p>
+      </div>
+
+      <!-- 9. Kesehatan Olahraga -->
+      <div class="hover-card bg-white dark:bg-gray-800 p-6 rounded flex flex-col items-center" data-aos="zoom-in">
+        <i data-feather="activity" class="w-10 h-10 text-primary mb-3"></i>
+        <h4 class="font-heading font-semibold">Kesehatan Olahraga</h4>
+        <p class="text-sm text-center">Pembinaan & pelayanan kesehatan olahraga.</p>
+      </div>
+
+      <!-- 10. Kesehatan Kerja -->
+      <div class="hover-card bg-white dark:bg-gray-800 p-6 rounded flex flex-col items-center" data-aos="zoom-in">
+        <i data-feather="briefcase" class="w-10 h-10 text-primary mb-3"></i>
+        <h4 class="font-heading font-semibold">Kesehatan Kerja</h4>
+        <p class="text-sm text-center">Pelayanan kesehatan tenaga kerja & pencegahan penyakit akibat kerja.</p>
+      </div>
+
+      <!-- 11. Kesehatan Jiwa -->
+      <div class="hover-card bg-white dark:bg-gray-800 p-6 rounded flex flex-col items-center" data-aos="zoom-in">
+        <i data-feather="user" class="w-10 h-10 text-primary mb-3"></i>
+        <h4 class="font-heading font-semibold">Kesehatan Jiwa</h4>
+        <p class="text-sm text-center">Pendataan, deteksi dini & pelayanan kesehatan jiwa.</p>
+      </div>
+
+      <!-- 12. Triple Eliminasi -->
+      <div class="hover-card bg-white dark:bg-gray-800 p-6 rounded flex flex-col items-center" data-aos="zoom-in">
+        <i data-feather="target" class="w-10 h-10 text-primary mb-3"></i>
+        <h4 class="font-heading font-semibold">Triple Eliminasi</h4>
+        <p class="text-sm text-center">Upaya eliminasi HIV, Sifilis & Hepatitis B.</p>
+      </div>
+
+    </div>
+  </div>
+  </section>
+
+  <!-- DOKUMEN -->
+  <section id="dokumen" class="py-20 bg-gray-100 dark:bg-gray-900">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <h2 class="text-2xl font-heading text-primary">Dokumen</h2>
+      <div class="h-1 w-24 bg-gradient-to-r from-secondary to-accent mx-auto my-4 rounded"></div>
+      <p class="mb-8 text-gray-600 dark:text-gray-300">Unduh dokumen resmi terkait UKM di Puskesmas Nelle.</p>
+      <div class="flex flex-col md:flex-row gap-6 justify-center">
+       <a href="javascript:void(0)" onclick="previewJadwal()" class="px-6 py-3 rounded-md font-semibold bg-primary text-white hover:bg-accent btn-animate">
+        Lihat Jadwal UKM Hari Ini</a>
+
+       <a href="https://drive.google.com/file/d/1cTJ1VRYQJI-EutMNXwMlqT74I1H0Bkun/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="px-6 py-3 rounded-md font-semibold bg-primary text-white hover:bg-accent btn-animate">
+        Download SOP</a>
+
+        <a href="javascript:void(0)" onclick="lihatMonitoring()" class="px-6 py-3 rounded-md font-semibold bg-primary text-white hover:bg-accent btn-animate">
+          Lihat Monitoring Mingguan</a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="py-20 bg-light dark:bg-dark">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-2xl font-heading text-primary text-center">FAQ</h2>
+      <div class="h-1 w-24 bg-gradient-to-r from-secondary to-accent mx-auto my-4 rounded"></div>
+      <div class="mt-10 space-y-4">
+        <!-- FAQ Item -->
+        <div class="bg-white dark:bg-gray-800 rounded shadow-card hover-card">
+          <button class="w-full flex justify-between items-center p-4 faq-toggle" aria-expanded="false">
+            <span class="font-heading font-semibold text-left">Apa itu SI JIMITIUS?</span>
+            <i data-feather="plus" class="icon w-5 h-5"></i>
+          </button>
+          <div class="faq-content px-4 pb-4 text-sm text-gray-600 dark:text-gray-300 hidden">
+            Sistem Informasi UKM Terintegrasi untuk Puskesmas Nelle agar monitoring, pelaporan, dan pelayanan lebih mudah.
+          </div>
+        </div>
+        <div class="bg-white dark:bg-gray-800 rounded shadow-card hover-card">
+          <button class="w-full flex justify-between items-center p-4 faq-toggle" aria-expanded="false">
+            <span class="font-heading font-semibold text-left">Bagaimana cara mengakses dokumen?</span>
+            <i data-feather="plus" class="icon w-5 h-5"></i>
+          </button>
+          <div class="faq-content px-4 pb-4 text-sm text-gray-600 dark:text-gray-300 hidden">
+            Dokumen dapat diunduh langsung melalui tombol yang tersedia pada bagian <strong>Dokumen</strong>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <section id="lokasi" class="py-20 bg-light dark:bg-dark">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-2xl font-heading text-primary text-center mb-6">Lokasi Kami</h2>
+     <div id="map" class="w-full h-64 md:h-96 mt-6" aria-label="Peta lokasi Puskesmas Nelle"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-primary text-white py-6">
+    <div class="text-center">
+      <p class="text-sm opacity-70">© <span id="year"></span> Puskesmas Nelle. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp -->
+  <a href="https://wa.me/6282237946045" target="_blank" rel="noopener noreferrer"
+    aria-label="Chat via WhatsApp"
+    class="group fixed bottom-6 right-6 z-50 w-10 h-10 rounded-full shadow-lg transition hover:scale-110">
+    <div class="w-10 h-10 rounded-full bg-[#25D366] flex items-center justify-center shadow-md">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+      alt="Logo WhatsApp"
+      class="w-6 h-6">
+    </div>
+    <span class="wa-tooltip absolute -left-40 top-1/2 -translate-y-1/2
+      bg-black text-white text-xs font-medium leading-none
+      px-4 py-1 rounded-md shadow-lg
+      opacity-0 group-hover:opacity-100 transition
+      hidden md:flex items-center whitespace-nowrap">
+      Chat via WhatsApp
+    </span>
+  </a>
+
+
+  <!-- Back to Top -->
+  <button id="backToTop" aria-label="Kembali ke atas"
+    class="hidden fixed bottom-20 right-6 z-40 w-10 h-10 rounded-full bg-primary text-white shadow-lg transition hover:scale-110">
+    <i data-feather="arrow-up" class="w-5 h-5 mx-auto"></i>
+  </button>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://unpkg.com/feather-icons"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <script>
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    document.addEventListener('DOMContentLoaded', function () {
+      /* --- INIT AOS + Feather --- */
+      AOS.init({ once: true, duration: 800, easing: 'ease-in-out' });
+      feather.replace();
+
+      /* --- Header Scroll Effect --- */
+      const header = document.getElementById('mainHeader');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) header.classList.add('header-solid');
+        else header.classList.remove('header-solid');
+      });
+
+      /* --- Dark Mode Toggle --- */
+      const htmlTag = document.getElementById('htmlTag');
+      const darkToggle = document.getElementById('darkToggle');
+      function setIcon(isDark) {
+        const iconSvg = isDark ? feather.icons.sun.toSvg() : feather.icons.moon.toSvg();
+        darkToggle.innerHTML = iconSvg;
+        feather.replace();
+        darkToggle.setAttribute('aria-pressed', String(isDark));
+      }
+      if (localStorage.getItem('theme') === 'dark') { htmlTag.classList.add('dark'); setIcon(true); }
+      else { setIcon(false); }
+      darkToggle.addEventListener('click', () => {
+        const isDarkNow = htmlTag.classList.toggle('dark');
+        localStorage.setItem('theme', isDarkNow ? 'dark' : 'light');
+        setIcon(isDarkNow);
+
+        if (window.leafletMap && window.tileLayer) {
+          const newUrl = isDarkNow
+            ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+            : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+          window.tileLayer.setUrl(newUrl);
+        }
+      });
+
+      /* --- Mobile Menu Toggle --- */
+      const menuBtn = document.getElementById('menuBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      function openMobileMenu() {
+        menuBtn.setAttribute('aria-expanded', 'true');
+        mobileMenu.classList.remove('hidden');
+        requestAnimationFrame(() => { mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px'; });
+      }
+      function closeMobileMenu() {
+        menuBtn.setAttribute('aria-expanded', 'false');
+        mobileMenu.style.maxHeight = '0px';
+        setTimeout(() => { if (mobileMenu.style.maxHeight === '0px') mobileMenu.classList.add('hidden'); }, 380);
+      }
+      mobileMenu.classList.add('hidden');
+      mobileMenu.style.maxHeight = '0px';
+      menuBtn.addEventListener('click', () => {
+        const isOpen = !mobileMenu.classList.contains('hidden') && mobileMenu.style.maxHeight !== '0px';
+        if (isOpen) closeMobileMenu(); else openMobileMenu();
+      });
+      mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => closeMobileMenu()));
+
+      /* --- FAQ Toggle --- */
+      document.querySelectorAll(".faq-toggle").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const content = btn.nextElementSibling;
+          const icon = btn.querySelector(".icon");
+          const expanded = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', String(!expanded));
+          content.classList.toggle("hidden");
+          if (icon) icon.classList.toggle("rotate-45");
+        });
+      });
+
+      /* --- Back to Top --- */
+      const backToTop = document.getElementById("backToTop");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 400) backToTop.classList.remove("hidden");
+        else backToTop.classList.add("hidden");
+      });
+      backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+      /* --- Leaflet Map --- */
+      const lat = -8.66340409406065;
+      const lng = 122.21573870185242;
+
+      const tileUrlLight = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+      const tileUrlDark  = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+      const tileAttribution = '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>';
+
+      const map = L.map('map').setView([-8.621, 122.212], 13);
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 20
+      }).addTo(map);
+      L.marker([-8.621, 122.212]).addTo(map).bindPopup("Puskesmas Nelle").openPopup();
+
+      const marker = L.circleMarker([lat, lng], {
+        radius: 9,
+        fillColor: '#f2b643',
+        color: '#e6a922',
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.95
+      }).addTo(map);
+
+      const gmapsLink = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+      marker.bindPopup(`
+        <div>
+          <strong>UPT Puskesmas Nelle</strong><br>
+          Nelle Urung, Kec. Nelle, Kabupaten Sikka, Nusa Tenggara Timur<br>
+          Jam: Senin–Jumat 08:00–14:00<br>
+          <a href="${gmapsLink}" target="_blank" style="color:#006b6d;font-weight:600;text-decoration:none;">➤ Buka di Google Maps</a>
+        </div>
+      `);
+      marker.openPopup();
+    });
+  </script>
+
+  <script>
+  function previewJadwal() {
+    // Format nama file sesuai format baru "UKM, 26 September 2025"
+    const today = new Date();
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    const formatter = new Intl.DateTimeFormat('id-ID', options);
+    const tanggal = formatter.format(today); // Contoh: "26 September 2025"
+
+    const fileName = "UKM, " + tanggal; // "UKM, 26 September 2025"
+
+    // URL GAS
+    const gasUrl = "https://script.google.com/macros/s/AKfycbwlEPBI1hxACU-s2MrziqumPsHru61ghY263mJK71_2pvxJEsedfl0E2SWt4oZr1RLT/exec?date=" + encodeURIComponent(fileName);
+
+    fetch(gasUrl)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          // buka file preview di tab baru
+          window.open(data.url, '_blank');
+        } else {
+          Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2500,
+            timerProgressBar: true,
+          }).fire({
+            icon: 'warning',
+            title: 'data tidak tersedia.'
+          });
+        }
+      })
+      .catch(err => {
+        Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true,
+        }).fire({
+          icon: 'error',
+          title: 'Terjadi error.'
+        });
+        console.error(err);
+      });
+    }
+
+  </script>
+
+  <script>
+  function lihatMonitoring() {
+    fetch("https://script.google.com/macros/s/AKfycbxH_rZs5bkG8DhoS_eKulBtLNRnIOnJAyfmiVEtmAaMVWgoQuxz10tBjU_SWrxFzIZL/exec") // ganti dengan ID GAS-mu
+      .then(res => res.json())
+      .then(data => {
+        if (!data) return;
+
+        // Lebih dari 1 baris "Ya"
+        if (data.success === false && data.message === "Data belum diperbaharui") {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'warning',
+            title: data.message,
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+          });
+        }
+        // Data tersedia
+        else if (data.success === true && data.url) {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: 'Data tersedia',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+          });
+          // buka URL di tab baru
+          window.open(data.url, '_blank');
+        }
+        // Data tidak tersedia
+        else if (data.success === false && data.message === "Data tidak tersedia") {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'warning',
+            title: data.message,
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+          });
+        }
+      })
+      .catch(err => {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          icon: 'error',
+          title: 'Terjadi error',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true
+        });
+        console.error(err);
+      });
+  }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="id" class="scroll-smooth" id="htmlTag">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Monitoring Kegiatan — Bagian Keuangan</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/arnoldjimmy115-bit/puskesmas-assets/main/hijau%20logo.png" />
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#006b6d',
+            secondary: '#f2b643',
+            accent: '#a22e33',
+            dark: '#2f2f3b',
+            light: '#f9fafb'
+          },
+          fontFamily: {
+            heading: ['Poppins', 'sans-serif'],
+            body: ['Roboto', 'sans-serif']
+          },
+          boxShadow: {
+            card: '0 4px 12px rgba(0,0,0,0.1)',
+            cardHover: '0 8px 24px rgba(0,0,0,0.2)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Feather Icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- DataTables -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.tailwindcss.min.css">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <!-- DataTables Responsive -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+  <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+
+
+    <style>
+    
+  .swal2-popup.swal2-toast {
+    font-size: 0.8rem !important;
+    padding: 0.6rem 1rem !important;
+    border-radius: 0.5rem !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+  }
+    .swal2-toast .swal2-title { font-weight: 500 !important; }
+    
+  /* Pastikan tabel full lebar */
+  #kontenTable {
+    width: 100% !important;
+    table-layout: auto;
+  }
+
+  /* Wrapper DataTables */
+  .dataTables_wrapper {
+    width: 100% !important;
+    overflow-x: auto; /* agar bisa scroll di HP jika butuh */
+  }
+
+  /* Input pencarian */
+  .dataTables_filter {
+    position: relative;
+  }
+  .dataTables_filter input {
+    padding-left: 28px !important;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+  }
+
+  /* Mode gelap untuk DataTables */
+  html.dark .dataTables_wrapper .dataTables_filter label,
+  html.dark .dataTables_wrapper .dataTables_length label,
+  html.dark .dataTables_wrapper .dataTables_info,
+  html.dark .dataTables_wrapper .dataTables_paginate {
+    color: #f9fafb !important;
+  }
+  html.dark .dataTables_wrapper .dataTables_paginate .paginate_button {
+    color: #f9fafb !important;
+    border: 1px solid #555 !important;
+    background: #2f2f3b !important;
+  }
+  html.dark .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: #006b6d !important;
+    color: #fff !important;
+    border: 1px solid #006b6d !important;
+  }
+  html.dark .dataTables_wrapper select,
+  html.dark .dataTables_wrapper input {
+    background: #2f2f3b !important;
+    color: #f9fafb !important;
+    border: 1px solid #555 !important;
+  }
+
+  /* Responsive card style di HP */
+  @media (max-width: 768px) {
+    #kontenTable {
+      font-size: 0.875rem; /* teks lebih kecil */
+    }
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  </style>
+
+</head>
+<body class="font-body bg-light text-dark dark:bg-dark dark:text-light antialiased">
+
+<!-- Overlay -->
+<div id="overlay" class="fixed inset-0 bg-black/50 z-40 hidden"></div>
+
+<!-- Sidebar -->
+<aside id="sidebar" class="w-64 h-screen bg-primary dark:bg-dark text-white fixed left-0 top-0 flex flex-col shadow-lg 
+      transition-transform transform -translate-x-full md:translate-x-0 z-50">
+  <div class="flex items-center gap-3 px-6 py-4 border-b border-white/20">
+    <img src="https://raw.githubusercontent.com/arnoldjimmy115-bit/puskesmas-assets/main/putih%20logo.png" alt="Logo" class="w-8 h-8">
+    <h1 class="font-heading text-lg">SI JIMITIUS</h1>
+  </div>
+  <div class="px-6 py-4 border-b border-white/20">
+    <p id="userName" class="font-semibold"></p>
+    <p id="userRole" class="text-sm text-secondary"></p>
+  </div>
+  <nav id="menuContainer" class="flex-1 px-4 py-6 space-y-2 overflow-y-auto"></nav>
+</aside>
+
+<!-- Main Content -->
+<div class="md:ml-64 flex-1 min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="w-full bg-white dark:bg-gray-900 shadow px-4 md:px-6 py-4 flex items-center justify-between">
+    <!-- Tombol menu di HP -->
+    <button id="menuToggle" class="md:hidden p-2 rounded-md bg-primary text-white hover:bg-secondary flex-shrink-0">
+      <i data-feather="menu"></i>
+    </button>
+
+    <!-- Judul -->
+    <h2 id="headerTitle" class="text-lg md:text-xl font-heading text-primary dark:text-secondary flex-1 text-center md:text-left">
+      Monitoring Kegiatan
+    </h2>
+
+    <!-- Kontrol kanan -->
+    <div class="flex items-center gap-3">
+      <!-- Dark mode toggle -->
+      <button onclick="toggleDark()" id="darkToggle" 
+        class="p-2 rounded-full bg-secondary text-dark hover:bg-accent hover:text-white transition flex-shrink-0">
+        <i data-feather="moon"></i>
+      </button>
+
+      <!-- Tombol logout -->
+      <button onclick="logout()" class="p-2 rounded-md bg-accent hover:bg-red-700 text-white flex items-center gap-2 transition flex-shrink-0">
+        <i data-feather="log-out" class="w-5 h-5"></i>
+        <span class="hidden md:inline">Logout</span> <!-- Hanya tampil teks di desktop -->
+      </button>
+    </div>
+  </header>
+
+  <main class="flex-1 p-4 md:p-8">
+    <div class="flex items-center justify-between mb-4">
+      <button id="reloadBtn" 
+        class="flex items-center gap-2 px-3 py-2 rounded-lg bg-primary text-white hover:bg-secondary hover:text-dark transition">
+        <i data-feather="refresh-cw"></i> Reload
+      </button>
+    </div>
+
+    <div id="statusInfo" class="text-sm text-gray-600 dark:text-gray-300 mb-2"></div>
+
+    <!-- Tabel -->
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-card hover:shadow-cardHover transition">
+      <table id="kontenTable" 
+        class="min-w-full text-sm text-left border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow">
+        <thead class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+          <tr>
+            <th></th>
+            <th class="px-4 py-2">Tahun</th>
+            <th class="px-4 py-2">Bulan</th>
+            <th class="px-4 py-2">Minggu</th>
+            <th class="px-4 py-2">Deskripsi</th>
+            <th class="px-4 py-2">Link</th>
+            <th class="px-4 py-2">Status</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200 dark:divide-gray-700"></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<script>
+  feather.replace();
+
+  // 🔐 Cek login
+  if (!localStorage.getItem("loggedIn")) {
+    window.location.href = "../../login.html";
+  }
+
+  const userRole = localStorage.getItem("role") || "User";
+  const userName = localStorage.getItem("username") || "User";
+  document.getElementById("userName").textContent = userName;
+  document.getElementById("userRole").textContent = userRole;
+
+  // ===== Pembatasan Role: hanya Koordinator Program (12 UKM) =====
+  const allowedRoles = ["Bagian Keuangan"];
+
+  if (!allowedRoles.includes(userRole)) {
+    localStorage.clear();
+   Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2500,
+      timerProgressBar: true,
+    }).fire({
+      icon: 'error',
+      title: 'Akses ditolak! Silakan login kembali.'
+    }).then(() => {
+      // Redirect ke halaman login
+      window.location.href = "../../login.html";
+    });
+  }
+  
+  const menuConfig = [
+      { icon: "home", text: "Dashboard", href: "dashboard.html" },
+      { icon: "calendar", text: "Lihat Jadwal Bulanan", href: "kelolajadwalbulanan.html" },
+      { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
+      { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" },
+      { icon: "archive", text: "Laporan Realisasi Anggaran", href: "laporan.html" }
+  ];
+  
+  const currentPage = window.location.pathname.split("/").pop();
+  document.getElementById("menuContainer").innerHTML = menuConfig.map(m => {
+    const isActive = currentPage.endsWith(m.href);
+    const activeClass = isActive ? "bg-secondary text-dark font-semibold" : "hover:bg-secondary hover:text-dark";
+    return `<a href="${m.href}" class="flex items-center gap-3 px-3 py-2 rounded-md transition ${activeClass}">
+      <i data-feather="${m.icon}" class="w-5 h-5"></i> ${m.text}
+    </a>`;
+  }).join("");
+  feather.replace();
+
+  const htmlTag = document.getElementById("htmlTag");
+  const darkToggle = document.getElementById("darkToggle");
+  function toggleDark() {
+    const isDark = htmlTag.classList.toggle("dark");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+    darkToggle.innerHTML = isDark ? feather.icons.sun.toSvg() : feather.icons.moon.toSvg();
+    feather.replace();
+  }
+  if(localStorage.getItem("theme") === "dark"){ 
+    htmlTag.classList.add("dark"); 
+    darkToggle.innerHTML = feather.icons.sun.toSvg();
+  }
+
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  const menuToggle = document.getElementById("menuToggle");
+  menuToggle.addEventListener("click", ()=> {
+    sidebar.classList.toggle("-translate-x-full");
+    overlay.classList.toggle("hidden");
+  });
+  overlay.addEventListener("click", ()=> {
+    sidebar.classList.add("-translate-x-full");
+    overlay.classList.add("hidden");
+  });
+
+  function logout() {
+    Swal.fire({
+      title: 'Apakah Anda yakin ingin logout?',
+      text: "Sesi Anda akan diakhiri.",
+      icon: 'question',
+      iconColor: '#a22e33',
+      showCancelButton: true,
+      confirmButtonText: '<i data-feather="log-out"></i> Ya, Logout',
+      cancelButtonText: 'Batal',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#6c757d',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.clear();
+        Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true
+        }).fire({
+          icon: 'success',
+          title: 'Berhasil logout'
+        }).then(() => {
+          window.location.href = "../../login.html";
+        });
+      }
+    });
+  }
+</script>
+
+<script>
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyikLUvJtOZYlzhFJ3L3VcjW5YiVAofmYN7YBDdGTYvgBVFaG6837w72id4NGih4Kwb/exec"; 
+  let dataTable;
+
+  async function loadKontenUKM() {
+    const statusInfo = document.getElementById("statusInfo");
+    statusInfo.innerHTML = `
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 dark:bg-blue-900 dark:text-blue-200 text-sm shadow">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
+          <path d="M12 2a10 10 0 0110 10"/>
+        </svg>
+        Sedang memuat data...
+      </div>
+    `;
+
+    try {
+      const res = await fetch(SCRIPT_URL);
+      const data = await res.json();
+      if (!Array.isArray(data.rows)) throw new Error("Data tidak tersedia");
+
+      // Siapkan data baris
+      const newRows = data.rows.map(r => [
+        "", // kolom control untuk responsive
+        r.tahun,
+        r.bulan,
+        r.minggu,
+        `Laporan Kegiatan UKM Mingguan: Minggu ${r.minggu} Bulan ${r.bulan} Tahun ${r.tahun}`,
+        `<a href="${r.link}" target="_blank" 
+          class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary text-white text-xs rounded-lg shadow hover:bg-secondary hover:text-dark transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+          Buka
+        </a>`,
+        `<span class="inline-block px-2 py-1 rounded-lg text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
+          ${r.status}
+        </span>`
+      ]);
+
+      // Update tabel tanpa destroy
+      dataTable.clear();
+      dataTable.rows.add(newRows);
+      dataTable.draw();
+      dataTable.columns.adjust().responsive.recalc();
+
+      statusInfo.innerHTML = `
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-50 text-green-700 dark:bg-green-900 dark:text-green-200 text-sm shadow">
+          <i data-feather="check-circle" class="w-4 h-4"></i>
+          Data berhasil dimuat, ditemukan <b>${data.rows.length}</b> baris.
+        </div>
+      `;
+      feather.replace();
+
+    } catch (err) {
+      statusInfo.innerHTML = `
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-red-50 text-red-700 dark:bg-red-900 dark:text-red-200 text-sm shadow">
+          <i data-feather="alert-circle" class="w-4 h-4"></i>
+          ${err.message}
+        </div>
+      `;
+      feather.replace();
+    }
+  }
+
+  // Inisialisasi DataTable sekali saja saat halaman load
+  window.onload = () => {
+    dataTable = $('#kontenTable').DataTable({
+      responsive: { details: { type: 'column', target: 'tr' } },
+      scrollX: true,
+      autoWidth: false,
+      columnDefs: [ { className: 'control', orderable: false, targets: 0 } ],
+      order: [[1, 'asc']],
+      pageLength: 10,
+      dom: '<"flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-4"lf>rt<"flex flex-col md:flex-row md:items-center md:justify-between gap-2 mt-4"ip>',
+      language: {
+        search: "",
+        lengthMenu: "Tampilkan _MENU_ data",
+        info: "Menampilkan _START_–_END_ dari _TOTAL_ data",
+        paginate: { first: "«", last: "»", next: "›", previous: "‹" }
+      }
+    });
+
+    loadKontenUKM();
+    feather.replace();
+  };
+
+  // Tombol reload
+  document.getElementById("reloadBtn").addEventListener("click", async () => {
+    const btn = document.getElementById("reloadBtn");
+    const old = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = `<i data-feather="loader" class="w-4 h-4 animate-spin"></i> Memuat...`;
+    feather.replace();
+
+    await loadKontenUKM();
+
+    btn.disabled = false;
+    btn.innerHTML = old;
+    feather.replace();
+  });
+</script>
+
+
+</body>
+</html>

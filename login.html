@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="id" class="scroll-smooth" id="htmlTag">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login — SI JIMITIUS</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/arnoldjimmy115-bit/puskesmas-assets/main/hijau%20logo.png" />
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#006b6d',
+            secondary: '#f2b643',
+            accent: '#a22e33',
+            dark: '#2f2f3b',
+            light: '#f9fafb'
+          },
+          fontFamily: {
+            heading: ['Poppins', 'sans-serif'],
+            body: ['Roboto', 'sans-serif']
+          },
+          boxShadow: {
+            card: '0 4px 12px rgba(0,0,0,0.1)',
+            cardHover: '0 8px 24px rgba(0,0,0,0.2)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Feather Icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    .swal2-popup.swal2-toast {
+      font-size: 0.8rem !important;
+      padding: 0.6rem 1rem !important;
+      border-radius: 0.5rem !important;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+    }
+    .swal2-toast .swal2-title {
+      font-weight: 500 !important;
+    }
+  </style>
+  
+</head>
+<body class="font-body bg-light text-dark dark:bg-dark dark:text-light antialiased">
+
+<!-- Login Container -->
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-primary to-dark p-6">
+  <div class="w-full max-w-md mx-4">
+    <!-- Card dengan efek hover sederhana -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-card hover:shadow-cardHover transition p-6">
+      <!-- Logo -->
+      <div class="flex flex-col items-center mb-6">
+        <img id="logoImg" src="https://raw.githubusercontent.com/arnoldjimmy115-bit/puskesmas-assets/main/hijau%20logo.png" alt="Logo" class="w-12 h-12 mb-2">
+        <h1 class="font-heading text-2xl text-primary dark:text-secondary">SI JIMITIUS</h1>
+        <p class="text-gray-500 dark:text-gray-300 text-sm">Login ke sistem informasi</p>
+      </div>
+
+      <!-- Form -->
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label class="block text-sm font-semibold mb-1">Username</label>
+          <div class="relative">
+            <input id="usernameInput" type="text" placeholder="Masukkan username"
+              class="w-full px-4 py-2 rounded border dark:border-gray-700 bg-light dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-secondary">
+            <i data-feather="user" class="absolute right-3 top-2.5 w-5 h-5 text-gray-400"></i>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold mb-1">Password</label>
+          <div class="relative">
+            <input id="passwordInput" type="password" placeholder="Masukkan password"
+              class="w-full pr-10 px-4 py-2 rounded border dark:border-gray-700 bg-light dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-secondary">
+            <!-- Toggle lihat password -->
+            <button type="button" id="togglePassword" aria-label="Tampilkan password" class="absolute right-2 top-2.5 text-gray-500 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white">
+              <i data-feather="eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-2 rounded bg-secondary text-dark font-semibold hover:bg-primary hover:text-white transition">
+          Login
+        </button>
+      </form>
+
+      <!-- Link tambahan -->
+      <div class="mt-6 text-center text-sm">
+        <a href="index.html" class="text-primary dark:text-secondary hover:underline">Kembali ke halaman beranda?</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dark mode toggle -->
+  <button id="darkToggle" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-secondary text-dark shadow-md hover:bg-accent hover:text-white" aria-label="Toggle dark mode">
+    <i data-feather="moon"></i>
+  </button>
+</div>
+
+<script>
+  // =====================================================
+  // 1. UI: Dark Mode, Logo, Password Toggle
+  // =====================================================
+  feather.replace();
+  const htmlTag = document.getElementById('htmlTag');
+  const darkToggle = document.getElementById('darkToggle');
+  const logoImg = document.getElementById('logoImg');
+  const passwordInput = document.getElementById('passwordInput');
+  const togglePasswordBtn = document.getElementById('togglePassword');
+
+  function setIcon(isDark) {
+    const icon = isDark ? feather.icons.sun.toSvg() : feather.icons.moon.toSvg();
+    darkToggle.innerHTML = icon; feather.replace();
+  }
+  function setLogo(isDark) {
+    logoImg.src = isDark 
+      ? "https://raw.githubusercontent.com/arnoldjimmy115-bit/puskesmas-assets/main/putih%20logo.png"
+      : "https://raw.githubusercontent.com/arnoldjimmy115-bit/puskesmas-assets/main/hijau%20logo.png";
+  }
+  if(localStorage.getItem('theme') === 'dark'){ 
+    htmlTag.classList.add('dark'); setIcon(true); setLogo(true); 
+  } else { 
+    setIcon(false); setLogo(false); 
+  }
+  darkToggle.addEventListener('click', () => {
+    const isDark = htmlTag.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    setIcon(isDark); setLogo(isDark);
+  });
+  togglePasswordBtn.addEventListener('click', () => {
+    const type = passwordInput.type === "password" ? "text" : "password";
+    passwordInput.type = type;
+    togglePasswordBtn.innerHTML = feather.icons[type === "password" ? "eye" : "eye-off"].toSvg();
+  });
+
+  // =====================================================
+  // 2. Role Pages Mapping
+  // =====================================================
+  const rolePages = {
+    "Penanggung Jawab Program": "ukm/penanggungjawab_program/dashboard.html",
+    "Koordinator Promkes": "ukm/koordinator_program/dashboard.html",
+    "Koordinator Kesling": "ukm/koordinator_program/dashboard.html",
+    "Koordinator KIA/KB": "ukm/koordinator_program/dashboard.html",
+    "Koordinator Gizi": "ukm/koordinator_program/dashboard.html",
+    "Koordinator P2PM": "ukm/koordinator_program/dashboard.html",
+    "Koordinator TB & HIV": "ukm/koordinator_program/dashboard.html",
+    "Koordinator Kusta": "ukm/koordinator_program/dashboard.html",
+    "Koordinator IVA": "ukm/koordinator_program/dashboard.html",
+    "Koordinator PTM": "ukm/koordinator_program/dashboard.html",
+    "Koordinator UKS & UKGS": "ukm/koordinator_program/dashboard.html",
+    "Koordinator Kesehatan Tradisional": "ukm/koordinator_program/dashboard.html",
+    "Koordinator Kesehatan Jiwa": "ukm/koordinator_program/dashboard.html",
+    "Admin Tata Usaha": "ukm/admin_tatausaha/dashboard.html",
+    "Operator SI-JIMITIUS" : "ukm/operator_sijimitius/dashboard.html",
+    "Bagian Keuangan" : "ukm/bagian_keuangan/dashboard.html",
+    "Kepala UPT Puskesmas Nelle" : "ukm/kepalaupt_puskesmasnelle/dashboard.html",
+  };
+
+  // =====================================================
+  // 3. Load Users from Google Spreadsheet (via Apps Script)
+  // =====================================================
+  async function loadUsers() {
+    try {
+      const res = await fetch("https://script.google.com/macros/s/AKfycbw5707IC1_3Q30lTg8MSnlc9g5G5zyAma57S4ZkJuu0-_GoUjB_qC_-_VVznIuYzuGA/exec");
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      console.error("Gagal ambil data user:", error);
+      return [];
+    }
+  }
+
+  // =====================================================
+  // 4. Login Form Handler
+  // =====================================================
+  const loginForm = document.getElementById("loginForm");
+  const usernameInput = document.getElementById("usernameInput");
+
+  // Toast template
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 2200,
+    timerProgressBar: true,
+    customClass: { popup: 'swal2-toast' },
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    }
+  });
+
+  loginForm.addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    if (!username || !password) {
+      Toast.fire({ icon: 'warning', title: 'Isi username dan password!' });
+      return;
+    }
+
+    const users = await loadUsers();
+    const userByName = users.find(u => u.username === username);
+
+    if (!userByName) {
+      Toast.fire({ icon: 'error', title: 'Username tidak ditemukan!' });
+      return;
+    }
+
+    if (userByName.password !== password) {
+      Toast.fire({ icon: 'error', title: 'Password salah!' });
+      return;
+    }
+
+    if (userByName.status !== "Aktif") {
+      Toast.fire({ icon: 'error', title: 'Akun Nonaktif, hubungi Operator SI-JIMITIUS!' });
+      return;
+    }
+
+    // ✅ Berhasil login
+    localStorage.setItem("loggedIn", "true");
+    localStorage.setItem("username", userByName.username);
+    localStorage.setItem("role", userByName.role);
+
+    Toast.fire({ icon: 'success', title: `Selamat datang ${userByName.username}` })
+      .then(() => {
+        const page = rolePages[userByName.role] || "index.html"; 
+        window.location.href = page;
+      });
+  });
+</script>
+
+
+
+
+</body>
+</html>
