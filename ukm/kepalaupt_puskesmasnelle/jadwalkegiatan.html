@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lihat Jadwal Bulanan — Bagian Keuangan</title>
+  <title> Jadwal Kegiatan — Kepala UPT Puskesmas Nelle</title>
 
   <!-- Tambahkan favicon -->
   <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/arnoldjimmy115-bit/puskesmas-assets/main/hijau%20logo.png" />
@@ -87,7 +87,17 @@
       border-radius: 0.5rem;
       border: 1px solid #ccc;
     }
+
+    /* ✅ Tambahan agar tabel selalu responsif */
+    #jadwalTable {
+      width: 100% !important;
+      table-layout: auto;
+    }
+    .dataTables_wrapper {
+      overflow-x: auto;
+    }
   </style>
+  
 </head>
 <body class="font-body bg-light text-dark dark:bg-dark dark:text-light antialiased">
 
@@ -119,7 +129,7 @@
 
     <!-- Judul -->
     <h2 id="headerTitle" class="text-lg md:text-xl font-heading text-primary dark:text-secondary flex-1 text-center md:text-left">
-      Lihat Jadwal Bulanan
+      Lihat Jadwal Kegiatan
     </h2>
 
     <!-- Kontrol kanan -->
@@ -202,7 +212,7 @@ document.getElementById("userName").textContent = userName;
 document.getElementById("userRole").textContent = userRole;
 
 // 🔐 Aturan role halaman ini
-const allowedRoles = ["Bagian Keuangan"];
+const allowedRoles = ["Kepala UPT Puskesmas Nelle"];
 if (!allowedRoles.includes(userRole)) {
   localStorage.clear();
   Swal.mixin({
@@ -220,13 +230,14 @@ if (!allowedRoles.includes(userRole)) {
     });
 }
 
-  const menuConfig = [
-    { icon: "home", text: "Dashboard", href: "dashboard.html" },
-    { icon: "calendar", text: "Lihat Jadwal Bulanan", href: "kelolajadwalbulanan.html" },
-    { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
-    { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" },
-    { icon: "archive", text: "Laporan Realisasi Anggaran", href: "laporan.html" },
-  ];
+const menuConfig = [
+      { icon: "home", text: "Dashboard", href: "dashboard.html" },
+      { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
+      { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
+      { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
+      { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" },
+      { icon: "archive", text: "Laporan Realisasi Anggaran", href: "laporan.html" }
+];
 
 const currentPage = window.location.pathname.split("/").pop();
 document.getElementById("menuContainer").innerHTML = menuConfig.map(m => {
@@ -308,142 +319,109 @@ function logout() {
 </script>
 
 <script>
-  // 🌐 Endpoint Google Apps Script
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxAxgtyCZN9mMMWzq7oSPlYPTaRY_U9SZ1NOS37itNYGIcPrD9dl1ENjNNAvw6HGfByHQ/exec";
-let dataTable;
+  // 🌐 GAS Endpoint
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxAxgtyCZN9mMMWzq7oSPlYPTaRY_U9SZ1NOS37itNYGIcPrD9dl1ENjNNAvw6HGfByHQ/exec";
+  let dataTable;
 
-// 📅 Nama bulan
-const bulanIndo = ["Januari","Februari","Maret","April","Mei","Juni","Juli",
-                   "Agustus","September","Oktober","November","Desember"];
+  // 📅 Nama bulan
+  const bulanIndo = ["Januari","Februari","Maret","April","Mei","Juni","Juli",
+                     "Agustus","September","Oktober","November","Desember"];
 
-// 🎛️ Init filter (dropdown tahun, bulan, ukm)
-function initFilters() {
-  const tahunSelect = document.getElementById("filterTahun");
-  const bulanSelect = document.getElementById("filterBulan");
-  const ukmSelect = document.getElementById("filterUkm");
-  const currentYear = new Date().getFullYear();
+  // 🎛️ Init filter
+  function initFilters() {
+    const tahunSelect = document.getElementById("filterTahun");
+    const bulanSelect = document.getElementById("filterBulan");
+    const ukmSelect = document.getElementById("filterUkm");
 
-  for (let y = currentYear - 1; y <= currentYear + 5; y++) {
-    tahunSelect.innerHTML += `<option value="${y}">${y}</option>`;
-  }
-  bulanIndo.forEach((b, i) => {
-    bulanSelect.innerHTML += `<option value="${String(i+1).padStart(2,"0")}">${b}</option>`;
-  });
-  const ukmList = [
-    "Semua UKM","Promkes","Kesling","Gizi","KIA/KB","P2PM",
-    "TB & HIV","Kusta","IVA","PTM","UKS & UKGS",
-    "Kesehatan Tradisional","Kesehatan Jiwa"
-  ];
-  ukmList.forEach(u => {
-    ukmSelect.innerHTML += `<option value="${u}">${u}</option>`;
-  });
-}
-
-// 🚀 Init DataTable kosong sejak awal load
-$(document).ready(function() {
-  dataTable = $('#jadwalTable').DataTable({
-    responsive: { details: { type: 'column', target: 'tr' } },
-    scrollX: true, // ✅ cegah tabel meluber di HP
-    columnDefs: [ { className: 'control', orderable: false, targets: 0 } ],
-    order: [1, 'asc'],
-    pageLength: 10,
-    dom: '<"flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-4"lf>rt<"flex flex-col md:flex-row md:items-center md:justify-between gap-2 mt-4"ip>',
-    language: {
-      search: "",
-      lengthMenu: "Tampilkan _MENU_ data",
-      info: "Menampilkan _START_–_END_ dari _TOTAL_ data",
-      paginate: { first: "«", last: "»", next: "›", previous: "‹" }
+    const currentYear = new Date().getFullYear();
+    for (let y = currentYear - 1; y <= currentYear + 5; y++) {
+      tahunSelect.innerHTML += `<option value="${y}">${y}</option>`;
     }
-  });
-});
 
-// 🔍 Terapkan filter
-async function applyFilter() {
-  const tahun = document.getElementById("filterTahun").value;
-  const bulan = document.getElementById("filterBulan").value;
-  const ukm = document.getElementById("filterUkm").value;
+    bulanIndo.forEach((b, i) => {
+      bulanSelect.innerHTML += `<option value="${String(i+1).padStart(2,"0")}">${b}</option>`;
+    });
 
-  if (!tahun || !bulan || !ukm) {
-    Toast.fire({ icon: 'warning', title: 'Pilih tahun, bulan, dan UKM terlebih dahulu!' });
-    return;
+    const ukmList = [
+      "Semua UKM","Promkes","Kesling","Gizi","KIA/KB","P2PM","TB & HIV","Kusta",
+      "IVA","PTM","UKS & UKGS","Kesehatan Tradisional","Kesehatan Jiwa"
+    ];
+    ukmList.forEach(u => {
+      ukmSelect.innerHTML += `<option value="${u}">${u}</option>`;
+    });
   }
 
-  try {
-    const res = await fetch(`${SCRIPT_URL}?action=list&tahun=${tahun}&bulan=${bulan}&ukm=${encodeURIComponent(ukm)}&role=${encodeURIComponent(userRole)}`);
-    const data = await res.json();
-
-    if (!data.success) throw new Error(data.message || "Gagal mengambil data");
-    if (!Array.isArray(data.files)) throw new Error("Data tidak tersedia");
-
-    // 🔄 Update tabel tanpa destroy
-    dataTable.clear();
-
-    const newRows = data.files.map(f => [
-      "",
-      f.tahun,
-      bulanIndo[parseInt(f.bulan, 10)-1],
-      f.ukm,
-      f.fileName,
-      f.koordinator,
-      `
-      <a href="${f.fileUrl}" target="_blank" 
-         class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary text-white text-xs rounded-lg shadow hover:bg-secondary hover:text-dark transition">
-         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-           <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
-           <polyline points="15 3 21 3 21 9"/>
-           <line x1="10" y1="14" x2="21" y2="3"/>
-         </svg>
-         Buka
-      </a>
-      `
-    ]);
-
-    dataTable.rows.add(newRows).draw();
-
-    // ✅ Pastikan tabel menyesuaikan layar
-    dataTable.columns.adjust().responsive.recalc();
-
-    Toast.fire({ icon: 'success', title: `Filter berhasil (${data.files.length} file ditemukan)` });
-
-  } catch (err) {
-    Toast.fire({ icon: 'error', title: err.message });
-  }
-}
-
-// 🗑️ (Opsional) Hapus file
-async function deleteFile(tahun, bulan, fileName) {
-  Swal.fire({
-    title: `Hapus file "${fileName}"?`,
-    text: "File akan dipindahkan ke Sampah.",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Ya, Hapus",
-    cancelButtonText: "Batal",
-    confirmButtonColor: "#d33",
-    cancelButtonColor: "#6c757d",
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      try {
-        const res = await fetch(`${SCRIPT_URL}?action=delete&tahun=${tahun}&bulan=${bulan}&fileName=${encodeURIComponent(fileName)}&role=${encodeURIComponent(userRole)}`);
-        const data = await res.json();
-
-        if (data.success) {
-          Toast.fire({ icon: "success", title: data.message || "File berhasil dipindahkan ke Sampah" });
-          applyFilter();
-        } else {
-          throw new Error(data.message || "Gagal menghapus file");
-        }
-      } catch (err) {
-        Toast.fire({ icon: "error", title: err.message });
+  // 🚀 Init DataTable kosong sejak awal
+  $(document).ready(function() {
+    dataTable = $('#jadwalTable').DataTable({
+      responsive: { details: { type: 'column', target: 'tr' } },
+      scrollX: true, // ✅ biar tabel gak meluber di HP
+      columnDefs: [ { className: 'control', orderable: false, targets: 0 } ],
+      order: [1, 'asc'],
+      pageLength: 10,
+      dom: '<"flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-4"lf>rt<"flex flex-col md:flex-row md:items-center md:justify-between gap-2 mt-4"ip>',
+      language: {
+        search: "",
+        lengthMenu: "Tampilkan _MENU_ data",
+        info: "Menampilkan _START_–_END_ dari _TOTAL_ data",
+        paginate: { first: "«", last: "»", next: "›", previous: "‹" }
       }
-    }
+    });
   });
-}
 
-// 🚀 Load filter saat page onload
-window.onload = initFilters;
+  // 🔍 Terapkan filter
+  async function applyFilter() {
+    const tahun = document.getElementById("filterTahun").value;
+    const bulan = document.getElementById("filterBulan").value;
+    const ukm = document.getElementById("filterUkm").value;
 
+    if (!tahun || !bulan || !ukm) {
+      Toast.fire({ icon: 'warning', title: 'Pilih tahun, bulan, dan UKM terlebih dahulu!' });
+      return;
+    }
 
+    try {
+      const res = await fetch(`${SCRIPT_URL}?action=list&tahun=${tahun}&bulan=${bulan}&ukm=${encodeURIComponent(ukm)}&role=${encodeURIComponent(userRole)}`);
+      const data = await res.json();
+
+      if (!data.success) throw new Error(data.message || "Gagal mengambil data");
+      if (!Array.isArray(data.files)) throw new Error("Data tidak tersedia");
+
+      // 🔄 Kosongkan & isi ulang tabel
+      dataTable.clear();
+
+      const newRows = data.files.map(f => [
+        "", // kolom kontrol
+        f.tahun,
+        bulanIndo[parseInt(f.bulan, 10)-1],
+        f.ukm,
+        f.fileName,
+        f.koordinator,
+        `<a href="${f.fileUrl}" target="_blank" 
+          class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary text-white text-xs rounded-lg shadow hover:bg-secondary hover:text-dark transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+          Buka
+        </a>`
+      ]);
+
+      dataTable.rows.add(newRows).draw();
+
+      // 🔧 Pastikan responsif
+      dataTable.columns.adjust().responsive.recalc();
+
+      Toast.fire({ icon: 'success', title: `Filter berhasil (${data.files.length} file ditemukan)` });
+
+    } catch (err) {
+      Toast.fire({ icon: 'error', title: err.message });
+    }
+  }
+
+  // 🚀 Load filter saat page onload
+  window.onload = initFilters;
 </script>
 
 </body>

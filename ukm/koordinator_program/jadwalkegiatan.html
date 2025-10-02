@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Kelola Jadwal Bulanan — Koordinator Program</title>
+  <title>Jadwal Kegiatan — Koordinator Program</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/arnoldjimmy115-bit/puskesmas-assets/main/hijau%20logo.png" />
@@ -188,11 +188,12 @@
     if (bulanIndex > 11) { bulanIndex = 0; tahun += 1; }
     const bulanNama = bulanIndo[bulanIndex];
     document.getElementById("headerTitle").textContent =
-      `Kelola Jadwal Bulan ${bulanNama} ${tahun} - ${userRole}`;
+      `Jadwal Kegiatan ${bulanNama} ${tahun} - ${userRole}`;
 
   const menuConfig = [
       { icon: "home", text: "Dashboard", href: "dashboard.html" },
-      { icon: "calendar", text: "Kelola Jadwal Bulanan", href: "kelolajadwalbulanan.html" },
+      { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
+      { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
       { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
       { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" }
   ];

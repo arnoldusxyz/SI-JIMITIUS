@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="id" class="scroll-smooth" id="htmlTag">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jadwal Bulanan — Operator SI-JIMITIUS</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/arnoldjimmy115-bit/puskesmas-assets/main/hijau%20logo.png" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#006b6d',
+            secondary: '#f2b643',
+            accent: '#a22e33',
+            dark: '#2f2f3b',
+            light: '#f9fafb'
+          },
+          fontFamily: {
+            heading: ['Poppins', 'sans-serif'],
+            body: ['Roboto', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Feather -->
+  <script src="https://unpkg.com/feather-icons"></script>
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    .swal2-popup.swal2-toast { font-size: 0.8rem !important; padding: 0.6rem 1rem !important; border-radius: 0.5rem !important; }
+    @media (max-width: 768px) { #kontenTable { font-size: 0.875rem; } }
+  </style>
+
+</head>
+
+<body class="font-body bg-light text-dark dark:bg-dark dark:text-light antialiased">
+<!-- Overlay -->
+<div id="overlay" class="fixed inset-0 bg-black/50 z-40 hidden"></div>
+
+<!-- Sidebar -->
+<aside id="sidebar" class="w-64 h-screen bg-primary dark:bg-dark text-white fixed left-0 top-0 flex flex-col shadow-lg transition-transform transform -translate-x-full md:translate-x-0 z-50">
+  <div class="flex items-center gap-3 px-6 py-4 border-b border-white/20">
+    <img src="https://raw.githubusercontent.com/arnoldjimmy115-bit/puskesmas-assets/main/putih%20logo.png" class="w-8 h-8" alt="Logo">
+    <h1 class="font-heading text-lg">SI JIMITIUS</h1>
+  </div>
+  <div class="px-6 py-4 border-b border-white/20">
+    <p id="userName" class="font-semibold"></p>
+    <p id="userRole" class="text-sm text-secondary"></p>
+  </div>
+  <nav id="menuContainer" class="flex-1 px-4 py-6 space-y-2 overflow-y-auto"></nav>
+</aside>
+
+<!-- Main -->
+<div class="md:ml-64 flex-1 min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="w-full bg-white dark:bg-gray-900 shadow px-4 md:px-6 py-4 flex items-center justify-between">
+    <button id="menuToggle" class="md:hidden p-2 rounded-md bg-primary text-white hover:bg-secondary flex-shrink-0">
+      <i data-feather="menu"></i>
+    </button>
+    <h2 id="headerTitle" class="text-lg md:text-xl font-heading text-primary dark:text-secondary">Jadwal Bulanan</h2>
+    <div class="flex items-center gap-3">
+      <button onclick="toggleDark()" id="darkToggle" class="p-2 rounded-full bg-secondary text-dark hover:bg-accent hover:text-white transition flex-shrink-0">
+        <i data-feather="moon"></i>
+      </button>
+      <button onclick="logout()" class="p-2 rounded-md bg-accent hover:bg-red-700 text-white flex items-center gap-2 transition flex-shrink-0">
+        <i data-feather="log-out" class="w-5 h-5"></i><span class="hidden md:inline">Logout</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <main class="flex-1 p-4 md:p-8">
+    <!-- Form -->
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow mb-6">
+      <h3 class="font-heading text-lg mb-4" id="formTitle">Tambah Jadwal Bulanan</h3>
+      <form id="jadwalForm" class="grid sm:grid-cols-2 gap-4">
+        <input type="hidden" id="id_jb" />
+        <div>
+          <label class="block text-sm mb-1">Tahun</label>
+          <input type="number" id="tahun" class="w-full border rounded p-2 bg-white dark:bg-gray-700 dark:text-white" />
+        </div>
+        <div>
+          <label class="block text-sm mb-1">Bulan</label>
+          <select id="bulan" class="w-full border rounded p-2 bg-white dark:bg-gray-700 dark:text-white">
+            <option value="">Pilih Bulan</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm mb-1">Link</label>
+          <input type="url" id="link" placeholder="https://..." class="w-full border rounded p-2 bg-white dark:bg-gray-700 dark:text-white" />
+        </div>
+        <div>
+          <label class="block text-sm mb-1">Status</label>
+          <select id="status" class="w-full border rounded p-2 bg-white dark:bg-gray-700 dark:text-white">
+            <option value="Rencana">Rencana</option>
+            <option value="Berjalan">Berjalan</option>
+            <option value="Selesai">Selesai</option>
+          </select>
+        </div>
+        <div class="sm:col-span-2 flex gap-3 mt-2">
+          <button id="saveBtn" type="submit" class="bg-secondary text-dark px-4 py-2 rounded hover:bg-primary hover:text-white flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+            <span id="saveLabel">Simpan</span>
+          </button>
+          <button id="resetBtn" type="reset" onclick="resetForm()" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-600 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 1.5-5.16L1 10"/></svg>
+            Reset
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Reload button + status bawah -->
+    <div class="mb-4">
+      <button id="reloadBtn" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-primary text-white hover:bg-secondary hover:text-dark transition">
+        <svg xmlns="http://www.w3.org/2000/svg" id="reloadIcon" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10"/><path d="M20.49 15a9 9 0 0 1-14.13 3.36L1 14"/></svg>
+        <span id="reloadLabel">Reload</span>
+      </button>
+      <div id="statusInfo" class="text-sm text-gray-600 dark:text-gray-300 mt-2"></div>
+    </div>
+
+    <!-- Tabel responsif -->
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-card hover:shadow-cardHover transition overflow-x-auto">
+      <table id="kontenTable" class="min-w-full text-sm text-left border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow">
+        <thead class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+          <tr>
+            <th class="px-4 py-2">Tahun</th>
+            <th class="px-4 py-2">Bulan</th>
+            <th class="px-4 py-2">Link</th>
+            <th class="px-4 py-2">Deskripsi</th>
+            <th class="px-4 py-2">Status</th>
+            <th class="px-4 py-2">Aksi</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200 dark:divide-gray-700"></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<script>
+  feather.replace();
+
+  // Deteksi device awal
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  console.log("Device:", isMobile ? "Mobile" : "Desktop");
+
+  if (isMobile) {
+    document.body.classList.add("mobile-view");
+  } else {
+    document.body.classList.add("desktop-view");
+  }
+</script>
+
+<script>
+  feather.replace();
+
+  // === Autentikasi sederhana ===
+  if (!localStorage.getItem("loggedIn")) {
+    window.location.href = "../../login.html";
+  }
+  const userRole = localStorage.getItem("role") || "User";
+  const userName = localStorage.getItem("username") || "User";
+  document.getElementById("userName").textContent = userName;
+  document.getElementById("userRole").textContent = userRole;
+
+  // 🔐 Aturan role halaman ini
+  const allowedRoles = ["Operator SI-JIMITIUS"]; // ubah / tambah sesuai kebutuhan
+
+  if (!allowedRoles.includes(userRole)) {
+    localStorage.clear();
+    Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2500,
+      timerProgressBar: true,
+    }).fire({
+      icon: 'error',
+      title: 'Akses ditolak! Silakan login kembali.'
+    }).then(() => {
+      // Redirect ke halaman login
+      window.location.href = "../../login.html";
+    });
+  }
+
+  // === Sidebar menu ===
+  const menuConfig = [
+      { icon: "home", text: "Dashboard", href: "dashboard.html" },
+      { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
+      { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
+      { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
+      { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" },
+      { icon: "archive", text: "Laporan Realisasi Anggaran", href: "laporan.html" },
+      { icon: "settings", text: "Pengaturan", href: "pengaturan.html" }
+  ];
+  const currentPage = window.location.pathname.split("/").pop();
+  document.getElementById("menuContainer").innerHTML = menuConfig.map(m => {
+    const isActive = currentPage.endsWith(m.href);
+    const activeClass = isActive ? "bg-secondary text-dark font-semibold" : "hover:bg-secondary hover:text-dark";
+    return `<a href="${m.href}" class="flex items-center gap-3 px-3 py-2 rounded-md transition ${activeClass}"><i data-feather="${m.icon}" class="w-5 h-5"></i> ${m.text}</a>`;
+  }).join("");
+  feather.replace();
+
+  // === Dark Mode ===
+  const htmlTag = document.getElementById("htmlTag");
+  const darkToggle = document.getElementById("darkToggle");
+  function toggleDark() {
+    const isDark = htmlTag.classList.toggle("dark");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+    darkToggle.innerHTML = isDark ? feather.icons.sun.toSvg() : feather.icons.moon.toSvg();
+    feather.replace();
+  }
+  if(localStorage.getItem("theme") === "dark"){ htmlTag.classList.add("dark"); darkToggle.innerHTML = feather.icons.sun.toSvg(); }
+
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  document.getElementById("menuToggle").addEventListener("click", ()=> { sidebar.classList.toggle("-translate-x-full"); overlay.classList.toggle("hidden"); });
+  overlay.addEventListener("click", ()=> { sidebar.classList.add("-translate-x-full"); overlay.classList.add("hidden"); });
+
+  function logout() {
+    Swal.fire({ title: 'Apakah Anda yakin ingin logout?', text: "Sesi Anda akan diakhiri.", icon: 'question', iconColor: '#a22e33', showCancelButton: true, confirmButtonText: '<i data-feather="log-out"></i> Ya, Logout', cancelButtonText: 'Batal', confirmButtonColor: '#d33', cancelButtonColor: '#6c757d', reverseButtons: true }).then((result) => { if (result.isConfirmed) { localStorage.clear(); Swal.mixin({toast:true,position:'top-end',showConfirmButton:false,timer:2000,timerProgressBar:true}).fire({icon:'success',title:'Berhasil logout'}).then(() => {window.location.href = "../../login.html";}); } });
+  }
+</script>
+
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxGgxRbsuTAYoTZB5vR54zHVqF6NQf3Yub-fWjc4lg8SFm2YSKYH8rTPYCUDnxIBtOD/exec";
+let jadwalData = [];
+const statusInfo = document.getElementById('statusInfo');
+
+// === Toast config mirip jadwalkegiatan ===
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 2200,
+  timerProgressBar: true,
+});
+
+function setLoadingStatus() {
+  statusInfo.innerHTML = `
+    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 dark:bg-blue-900 dark:text-blue-200 text-sm shadow">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
+        <path d="M12 2a10 10 0 0110 10"/>
+      </svg>
+      Sedang memuat data...
+    </div>`;
+}
+
+function setSuccessStatus(count) {
+   statusInfo.innerHTML = `
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-50 text-green-700 dark:bg-green-900 dark:text-green-200 text-sm shadow">
+          <i data-feather="check-circle" class="w-4 h-4"></i>
+            Data berhasil dimuat, ditemukan <b>${count}</b> baris.
+        </div>
+      `;
+      feather.replace();
+}
+
+function setErrorStatus(msg) {
+  statusInfo.innerHTML = `
+    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-red-50 text-red-700 dark:bg-red-900 dark:text-red-200 text-sm shadow">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 8v4"/>
+        <path d="M12 16h.01"/>
+      </svg>
+      ${msg}
+    </div>`;
+}
+
+function bulanLabel(val) {
+  const names = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+  if (!val) return "-";
+  const n = parseInt(val, 10);
+  if (!isNaN(n) && n >= 1 && n <= 12) return names[n-1];
+  return val;
+}
+
+async function loadJadwal() {
+  try {
+    setLoadingStatus();
+    const res = await fetch(SCRIPT_URL + "?action=list");
+    const j = await res.json();
+    if (!j.success) throw new Error(j.message || 'Data tidak tersedia');
+    jadwalData = j.rows;
+    renderTable();
+    setSuccessStatus(jadwalData.length);
+  } catch (err) {
+    console.error(err);
+    setErrorStatus(err.message || 'Gagal memuat data');
+    Toast.fire({icon:'error', title: err.message || 'Gagal memuat data'});
+  }
+}
+
+  document.getElementById("reloadBtn").addEventListener("click", async () => {
+    const reloadBtn = document.getElementById("reloadBtn");
+    const originalHTML = reloadBtn.innerHTML;
+
+    reloadBtn.disabled = true;
+    reloadBtn.innerHTML = `<i data-feather="loader" class="w-4 h-4 animate-spin"></i> Memuat...`;
+    feather.replace();
+
+    await loadJadwal();
+
+    reloadBtn.disabled = false;
+    reloadBtn.innerHTML = originalHTML;
+    feather.replace();
+  });
+
+
+
+// render tabel
+function renderTable() {
+  const tbody = document.querySelector("#kontenTable tbody");
+  tbody.innerHTML = "";
+
+  if (!jadwalData || jadwalData.length === 0) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td colspan="5" class="text-center text-gray-500 py-4">Belum ada data jadwal.</td>`;
+    tbody.appendChild(tr);
+    return;
+  }
+
+  jadwalData.forEach(r => {
+    const tr = document.createElement('tr');
+    const linkCell = r.link ? `<a href="${r.link}" target="_blank"
+   class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary text-white text-xs rounded-lg shadow hover:bg-secondary hover:text-dark transition">
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+    <polyline points="15 3 21 3 21 9"/>
+    <line x1="10" y1="14" x2="21" y2="3"/>
+  </svg>
+  Buka
+</a>
+` : '-';
+
+    tr.innerHTML = `
+      <td class="px-4 py-2">${r.tahun || '-'}</td>
+      <td class="px-4 py-2">${bulanLabel(r.bulan)}</td>
+      <td class="px-4 py-2">${linkCell}</td>
+      <td class="px-4 py-2">Jadwal Bulan ${bulanLabel(r.bulan)} Tahun ${r.tahun || '-'}</td>
+      <td class="px-4 py-2">${r.status || '-'}</td>
+     <td class="px-4 py-2 flex gap-2">
+  <button class="bg-secondary text-dark px-3 py-1 rounded hover:bg-primary hover:text-white flex items-center gap-2" onclick='editJadwal(${JSON.stringify(r)})'>
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 20h9"/>
+      <path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/>
+    </svg>
+    Edit
+  </button>
+  <button class="bg-accent text-white px-3 py-1 rounded hover:bg-red-700 flex items-center gap-2" onclick='deleteJadwal("${r.id_jb}", "${r.tahun}", "${r.bulan}")'>
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="3 6 5 6 21 6"/>
+      <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
+      <path d="M10 11v6"/>
+      <path d="M14 11v6"/>
+      <path d="M9 6V4a2 2 0 012-2h2a2 2 0 012 2v2"/>
+    </svg>
+    Hapus
+  </button>
+</td>
+`;
+    tbody.appendChild(tr);
+  });
+}
+
+// === CRUD dengan toast ===
+async function addJadwal() {
+  const id_jb = document.getElementById("id_jb").value || Date.now();
+  const tahun = document.getElementById("tahun").value;
+  const bulan = document.getElementById("bulan").value;
+  const link = document.getElementById("link").value;
+  const status = document.getElementById("status").value;
+
+  if (!tahun || !bulan || !link || !status) {
+    Toast.fire({icon:'warning', title:'Semua field wajib diisi'});
+    return;
+  }
+
+  try {
+    setLoadingStatus();
+    const url = `${SCRIPT_URL}?action=add&id_jb=${id_jb}&tahun=${encodeURIComponent(tahun)}&bulan=${encodeURIComponent(bulan)}&link=${encodeURIComponent(link)}&status=${encodeURIComponent(status)}`;
+    const res = await fetch(url);
+    const j = await res.json();
+    if (!j.success) throw new Error(j.message || 'Gagal menyimpan');
+    Toast.fire({icon:'success', title:j.message || 'Berhasil menyimpan'});
+    resetForm();
+    await loadJadwal();
+  } catch (err) {
+    setErrorStatus(err.message || 'Gagal menyimpan');
+    Toast.fire({icon:'error', title: err.message || 'Gagal menyimpan'});
+  }
+}
+
+async function updateJadwal() {
+  const id_jb = document.getElementById("id_jb").value;
+  const tahun = document.getElementById("tahun").value;
+  const bulan = document.getElementById("bulan").value;
+  const link = document.getElementById("link").value;
+  const status = document.getElementById("status").value;
+
+  if (!tahun || !bulan || !link || !status) {
+    Toast.fire({icon:'warning', title:'Semua field wajib diisi'});
+    return;
+  }
+
+  try {
+    setLoadingStatus();
+    const url = `${SCRIPT_URL}?action=update&id_jb=${id_jb}&tahun=${encodeURIComponent(tahun)}&bulan=${encodeURIComponent(bulan)}&link=${encodeURIComponent(link)}&status=${encodeURIComponent(status)}`;
+    const res = await fetch(url);
+    const j = await res.json();
+    if (!j.success) throw new Error(j.message || 'Gagal update');
+    Toast.fire({icon:'success', title:j.message || 'Berhasil update'});
+    resetForm();
+    await loadJadwal();
+  } catch (err) {
+    setErrorStatus(err.message || 'Gagal update');
+    Toast.fire({icon:'error', title: err.message || 'Gagal update'});
+  }
+}
+
+async function deleteJadwal(id, tahun, bulan) {
+  Swal.fire({
+    title: `Hapus jadwal bulan ${bulanLabel(bulan)} ${tahun}?`,
+    text: "Data akan dipindahkan ke Sampah dan bisa dipulihkan oleh admin.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Ya, Hapus",
+    cancelButtonText: "Batal",
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#6c757d",
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: "Yakin benar-benar mau hapus?",
+        html: `
+          <p class="mb-3">Data jadwal <b>${bulanLabel(bulan)} ${tahun}</b> akan masuk ke Sampah Google Sheet.</p>
+          <div class="flex items-center justify-start gap-2">
+            <input type="checkbox" id="confirmDelete" />
+            <label for="confirmDelete">Saya paham data akan dipindahkan ke Sampah</label>
+          </div>
+        `,
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Ya, saya yakin",
+        cancelButtonText: "Batal",
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#6c757d",
+        preConfirm: () => {
+          if (!document.getElementById("confirmDelete").checked) {
+            Swal.showValidationMessage("Centang kotak konfirmasi terlebih dahulu");
+            return false;
+          }
+          return true;
+        }
+      }).then(async (finalResult) => {
+        if (finalResult.isConfirmed) {
+          try {
+            setLoadingStatus();
+            const url = `${SCRIPT_URL}?action=delete&id_jb=${id}`;
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data.success) {
+              Toast.fire({ icon: "success", title: data.message || "Data berhasil dipindahkan ke Sampah" });
+               window.location.reload();
+            } else {
+              throw new Error(data.message || "Gagal menghapus data");
+            }
+          } catch (err) {
+            Toast.fire({ icon: "error", title: err.message });
+            setErrorStatus(err.message || 'Gagal hapus');
+          }
+        }
+      });
+    }
+  });
+}
+
+
+function editJadwal(row) {
+  document.getElementById("id_jb").value = row.id_jb;
+  document.getElementById("tahun").value = row.tahun;
+  let bulanVal = row.bulan;
+  if (bulanVal) {
+    bulanVal = String(parseInt(bulanVal, 10)).padStart(2,"0");
+    document.getElementById("bulan").value = bulanVal;
+  }
+  document.getElementById("link").value = row.link;
+  document.getElementById("status").value = row.status;
+  document.getElementById("formTitle").innerText = 
+  `Edit Jadwal Bulanan (${bulanLabel(row.bulan)} ${row.tahun})`;
+
+  document.getElementById('saveLabel').innerText = 'Update';
+  document.getElementById('saveBtn').onclick = (e) => { e.preventDefault(); updateJadwal(); };
+}
+
+function resetForm() {
+  document.getElementById("jadwalForm").reset();
+  document.getElementById("id_jb").value = "";
+  document.getElementById("formTitle").innerText = "Tambah Jadwal Bulanan";
+  document.getElementById('saveLabel').innerText = 'Simpan';
+  document.getElementById('saveBtn').onclick = (e) => { e.preventDefault(); addJadwal(); };
+}
+
+// Init
+window.onload = () => {
+  const bulanSelect = document.getElementById("bulan");
+  if (bulanSelect && bulanSelect.options.length === 1) {
+    const names = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+    names.forEach((n,i) => {
+      const opt = document.createElement("option");
+      opt.value = String(i+1).padStart(2,"0");
+      opt.textContent = n;
+      bulanSelect.appendChild(opt);
+    });
+  }
+  resetForm();
+  loadJadwal();
+};
+
+// pastikan form submit default diarahkan ke addJadwal
+document.getElementById('jadwalForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  addJadwal();
+});
+</script>
+
+
+</body>
+</html>

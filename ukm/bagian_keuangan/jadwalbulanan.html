@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Monitoring Kegiatan — PJ Program</title>
+  <title>Jadwal Bulanan — Bagian Keuangan</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/arnoldjimmy115-bit/puskesmas-assets/main/hijau%20logo.png" />
@@ -49,6 +49,7 @@
   <!-- DataTables Responsive -->
   <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
   <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+
 
   <style>
     
@@ -150,7 +151,7 @@
 
     <!-- Judul -->
     <h2 id="headerTitle" class="text-lg md:text-xl font-heading text-primary dark:text-secondary flex-1 text-center md:text-left">
-      Monitoring Kegiatan
+     Jadwal Bulanan
     </h2>
 
     <!-- Kontrol kanan -->
@@ -188,7 +189,6 @@
             <th></th>
             <th class="px-4 py-2">Tahun</th>
             <th class="px-4 py-2">Bulan</th>
-            <th class="px-4 py-2">Minggu</th>
             <th class="px-4 py-2">Deskripsi</th>
             <th class="px-4 py-2">Link</th>
             <th class="px-4 py-2">Status</th>
@@ -203,41 +203,36 @@
 <script>
   feather.replace();
 
-  // === Autentikasi sederhana ===
+  // 🔐 Cek login
   if (!localStorage.getItem("loggedIn")) {
     window.location.href = "../../login.html";
   }
+
   const userRole = localStorage.getItem("role") || "User";
   const userName = localStorage.getItem("username") || "User";
   document.getElementById("userName").textContent = userName;
   document.getElementById("userRole").textContent = userRole;
 
-  const allowedRoles = ["Penanggung Jawab Program"]; 
+ // 🔐 Role yang diizinkan
+  const allowedRoles = ["Bagian Keuangan"];
   if (!allowedRoles.includes(userRole)) {
     localStorage.clear();
-      Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 2500,
-      timerProgressBar: true,
-    }).fire({
-      icon: 'error',
+    Swal.fire({
+      toast: true, position: 'top-end', showConfirmButton: false,
+      timer: 2500, timerProgressBar: true, icon: 'error',
       title: 'Akses ditolak! Silakan login kembali.'
-    }).then(() => {
-      // Redirect ke halaman login
-      window.location.href = "../../login.html";
-    });
+    }).then(() => window.location.href = "../../login.html");
   }
-
-  // === Sidebar & Menu ===
+  
   const menuConfig = [
       { icon: "home", text: "Dashboard", href: "dashboard.html" },
       { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
       { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
       { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
-      { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" }
+      { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" },
+      { icon: "archive", text: "Laporan Realisasi Anggaran", href: "laporan.html" }
   ];
+
   const currentPage = window.location.pathname.split("/").pop();
   document.getElementById("menuContainer").innerHTML = menuConfig.map(m => {
     const isActive = currentPage.endsWith(m.href);
@@ -248,7 +243,6 @@
   }).join("");
   feather.replace();
 
-  // === Dark Mode ===
   const htmlTag = document.getElementById("htmlTag");
   const darkToggle = document.getElementById("darkToggle");
   function toggleDark() {
@@ -264,7 +258,8 @@
 
   const sidebar = document.getElementById("sidebar");
   const overlay = document.getElementById("overlay");
-  document.getElementById("menuToggle").addEventListener("click", ()=> {
+  const menuToggle = document.getElementById("menuToggle");
+  menuToggle.addEventListener("click", ()=> {
     sidebar.classList.toggle("-translate-x-full");
     overlay.classList.toggle("hidden");
   });
@@ -288,19 +283,28 @@
     }).then((result) => {
       if (result.isConfirmed) {
         localStorage.clear();
-        Swal.mixin({toast:true,position:'top-end',showConfirmButton:false,timer:2000,timerProgressBar:true})
-          .fire({icon:'success',title:'Berhasil logout'})
-          .then(() => {window.location.href = "../../login.html";});
+        Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true
+        }).fire({
+          icon: 'success',
+          title: 'Berhasil logout'
+        }).then(() => {
+          window.location.href = "../../login.html";
+        });
       }
     });
   }
 </script>
 
 <script>
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyikLUvJtOZYlzhFJ3L3VcjW5YiVAofmYN7YBDdGTYvgBVFaG6837w72id4NGih4Kwb/exec"; 
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYF9-TGkcgu8VBWENg8xPRkeOnd2DazAweS_kvpREUefcYXJXtJ0gd11mmtf-CpjaV/exec"; 
   let dataTable;
 
-  async function loadKontenUKM() {
+  async function loadJadwalBulanan() {
     const statusInfo = document.getElementById("statusInfo");
     statusInfo.innerHTML = `
       <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 dark:bg-blue-900 dark:text-blue-200 text-sm shadow">
@@ -322,8 +326,7 @@
         "", // kolom control untuk responsive
         r.tahun,
         r.bulan,
-        r.minggu,
-        `Laporan Kegiatan UKM Mingguan: Minggu ${r.minggu} Bulan ${r.bulan} Tahun ${r.tahun}`,
+        `Jadwal Bulan ${r.bulan} Tahun ${r.tahun}`,
         `<a href="${r.link}" target="_blank" 
           class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary text-white text-xs rounded-lg shadow hover:bg-secondary hover:text-dark transition">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -381,7 +384,7 @@
       }
     });
 
-    loadKontenUKM();
+    loadJadwalBulanan();
     feather.replace();
   };
 
@@ -393,7 +396,7 @@
     btn.innerHTML = `<i data-feather="loader" class="w-4 h-4 animate-spin"></i> Memuat...`;
     feather.replace();
 
-    await loadKontenUKM();
+    await loadJadwalBulanan();
 
     btn.disabled = false;
     btn.innerHTML = old;

@@ -7,12 +7,14 @@ const roleConfig = {
     title: "Fungsi Koordinator Promkes",
     menu: [
       { icon: "home", text: "Dashboard", href: "dashboard.html" },
-      { icon: "calendar", text: "Kelola Jadwal Bulanan", href: "kelolajadwalbulanan.html" },
+      { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
+      { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
       { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
       { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" }
     ],
     cards: [
-      { icon: "calendar", title: "Kelola Jadwal Bulanan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "clock", title: "Jadwal Kegiatan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "calendar", title: "Jadwal Bulanan", desc: "Melihat jadwal kegiatan yang telah dibuat." },
       { icon: "file-text", title: "Surat Tugas & SPPD", desc: "Melihat surat tugas & SPPD dalam link Google Drive." },
       { icon: "check-square", title: "Monitoring Kegiatan", desc: "Memonitor kegiatan menggunakan lembar monitoring." }
     ]
@@ -23,12 +25,14 @@ const roleConfig = {
     title: "Fungsi Koordinator Kesling",
     menu: [
       { icon: "home", text: "Dashboard", href: "dashboard.html" },
-      { icon: "calendar", text: "Kelola Jadwal Bulanan", href: "kelolajadwalbulanan.html" },
+      { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
+      { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
       { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
       { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" }
     ],
     cards: [
-      { icon: "calendar", title: "Kelola Jadwal Bulanan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "clock", title: "Jadwal Kegiatan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "calendar", title: "Jadwal Bulanan", desc: "Melihat jadwal kegiatan yang telah dibuat." },
       { icon: "file-text", title: "Surat Tugas & SPPD", desc: "Melihat surat tugas & SPPD dalam link Google Drive." },
       { icon: "check-square", title: "Monitoring Kegiatan", desc: "Memonitor kegiatan menggunakan lembar monitoring." }
     ]
@@ -39,12 +43,14 @@ const roleConfig = {
     title: "Fungsi Koordinator KIA/KB",
     menu: [
       { icon: "home", text: "Dashboard", href: "dashboard.html" },
-      { icon: "calendar", text: "Kelola Jadwal Bulanan", href: "kelolajadwalbulanan.html" },
+      { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
+      { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
       { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
       { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" }
     ],
     cards: [
-      { icon: "calendar", title: "Kelola Jadwal Bulanan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "clock", title: "Jadwal Kegiatan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "calendar", title: "Jadwal Bulanan", desc: "Melihat jadwal kegiatan yang telah dibuat." },
       { icon: "file-text", title: "Surat Tugas & SPPD", desc: "Melihat surat tugas & SPPD dalam link Google Drive." },
       { icon: "check-square", title: "Monitoring Kegiatan", desc: "Memonitor kegiatan menggunakan lembar monitoring." }
     ]
@@ -55,12 +61,14 @@ const roleConfig = {
     title: "Fungsi Koordinator Gizi",
     menu: [
       { icon: "home", text: "Dashboard", href: "dashboard.html" },
-      { icon: "calendar", text: "Kelola Jadwal Bulanan", href: "kelolajadwalbulanan.html" },
+      { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
+      { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
       { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
       { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" }
     ],
     cards: [
-      { icon: "calendar", title: "Kelola Jadwal Bulanan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "clock", title: "Jadwal Kegiatan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "calendar", title: "Jadwal Bulanan", desc: "Melihat jadwal kegiatan yang telah dibuat." },
       { icon: "file-text", title: "Surat Tugas & SPPD", desc: "Melihat surat tugas & SPPD dalam link Google Drive." },
       { icon: "check-square", title: "Monitoring Kegiatan", desc: "Memonitor kegiatan menggunakan lembar monitoring." }
     ]
@@ -71,12 +79,14 @@ const roleConfig = {
     title: "Fungsi Koordinator P2PM",
     menu: [
       { icon: "home", text: "Dashboard", href: "dashboard.html" },
-      { icon: "calendar", text: "Kelola Jadwal Bulanan", href: "kelolajadwalbulanan.html" },
+      { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
+      { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
       { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
       { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" }
     ],
     cards: [
-      { icon: "calendar", title: "Kelola Jadwal Bulanan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "clock", title: "Jadwal Kegiatan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "calendar", title: "Jadwal Bulanan", desc: "Melihat jadwal kegiatan yang telah dibuat." },
       { icon: "file-text", title: "Surat Tugas & SPPD", desc: "Melihat surat tugas & SPPD dalam link Google Drive." },
       { icon: "check-square", title: "Monitoring Kegiatan", desc: "Memonitor kegiatan menggunakan lembar monitoring." }
     ]
@@ -87,12 +97,14 @@ const roleConfig = {
     title: "Fungsi Koordinator TB & HIV",
     menu: [
       { icon: "home", text: "Dashboard", href: "dashboard.html" },
-      { icon: "calendar", text: "Kelola Jadwal Bulanan", href: "kelolajadwalbulanan.html" },
+      { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
+      { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
       { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
       { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" }
     ],
     cards: [
-      { icon: "calendar", title: "Kelola Jadwal Bulanan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "clock", title: "Jadwal Kegiatan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "calendar", title: "Jadwal Bulanan", desc: "Melihat jadwal kegiatan yang telah dibuat." },
       { icon: "file-text", title: "Surat Tugas & SPPD", desc: "Melihat surat tugas & SPPD dalam link Google Drive." },
       { icon: "check-square", title: "Monitoring Kegiatan", desc: "Memonitor kegiatan menggunakan lembar monitoring." }
     ]
@@ -103,12 +115,14 @@ const roleConfig = {
     title: "Fungsi Koordinator Kusta",
     menu: [
       { icon: "home", text: "Dashboard", href: "dashboard.html" },
-      { icon: "calendar", text: "Kelola Jadwal Bulanan", href: "kelolajadwalbulanan.html" },
+      { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
+      { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
       { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
       { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" }
     ],
     cards: [
-      { icon: "calendar", title: "Kelola Jadwal Bulanan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "clock", title: "Jadwal Kegiatan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "calendar", title: "Jadwal Bulanan", desc: "Melihat jadwal kegiatan yang telah dibuat." },
       { icon: "file-text", title: "Surat Tugas & SPPD", desc: "Melihat surat tugas & SPPD dalam link Google Drive." },
       { icon: "check-square", title: "Monitoring Kegiatan", desc: "Memonitor kegiatan menggunakan lembar monitoring." }
     ]
@@ -119,12 +133,14 @@ const roleConfig = {
     title: "Fungsi Koordinator IVA",
     menu: [
       { icon: "home", text: "Dashboard", href: "dashboard.html" },
-      { icon: "calendar", text: "Kelola Jadwal Bulanan", href: "kelolajadwalbulanan.html" },
+      { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
+      { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
       { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
       { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" }
     ],
     cards: [
-      { icon: "calendar", title: "Kelola Jadwal Bulanan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "clock", title: "Jadwal Kegiatan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "calendar", title: "Jadwal Bulanan", desc: "Melihat jadwal kegiatan yang telah dibuat." },
       { icon: "file-text", title: "Surat Tugas & SPPD", desc: "Melihat surat tugas & SPPD dalam link Google Drive." },
       { icon: "check-square", title: "Monitoring Kegiatan", desc: "Memonitor kegiatan menggunakan lembar monitoring." }
     ]
@@ -135,12 +151,14 @@ const roleConfig = {
     title: "Fungsi Koordinator PTM",
     menu: [
       { icon: "home", text: "Dashboard", href: "dashboard.html" },
-      { icon: "calendar", text: "Kelola Jadwal Bulanan", href: "kelolajadwalbulanan.html" },
+      { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
+      { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
       { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
       { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" }
     ],
     cards: [
-      { icon: "calendar", title: "Kelola Jadwal Bulanan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "clock", title: "Jadwal Kegiatan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "calendar", title: "Jadwal Bulanan", desc: "Melihat jadwal kegiatan yang telah dibuat." },
       { icon: "file-text", title: "Surat Tugas & SPPD", desc: "Melihat surat tugas & SPPD dalam link Google Drive." },
       { icon: "check-square", title: "Monitoring Kegiatan", desc: "Memonitor kegiatan menggunakan lembar monitoring." }
     ]
@@ -151,12 +169,14 @@ const roleConfig = {
     title: "Fungsi Koordinator UKS & UKGS",
     menu: [
       { icon: "home", text: "Dashboard", href: "dashboard.html" },
-      { icon: "calendar", text: "Kelola Jadwal Bulanan", href: "kelolajadwalbulanan.html" },
+      { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
+      { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
       { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
       { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" }
     ],
     cards: [
-      { icon: "calendar", title: "Kelola Jadwal Bulanan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "clock", title: "Jadwal Kegiatan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "calendar", title: "Jadwal Bulanan", desc: "Melihat jadwal kegiatan yang telah dibuat." },
       { icon: "file-text", title: "Surat Tugas & SPPD", desc: "Melihat surat tugas & SPPD dalam link Google Drive." },
       { icon: "check-square", title: "Monitoring Kegiatan", desc: "Memonitor kegiatan menggunakan lembar monitoring." }
     ]
@@ -165,14 +185,16 @@ const roleConfig = {
   "Koordinator Kesehatan Tradisional": {
     header: "Dashboard — Kesehatan Tradisional",
     title: "Fungsi Koordinator Kesehatan Tradisional",
-    menu: [
+   menu: [
       { icon: "home", text: "Dashboard", href: "dashboard.html" },
-      { icon: "calendar", text: "Kelola Jadwal Bulanan", href: "kelolajadwalbulanan.html" },
+      { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
+      { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
       { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
       { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" }
     ],
     cards: [
-      { icon: "calendar", title: "Kelola Jadwal Bulanan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "clock", title: "Jadwal Kegiatan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "calendar", title: "Jadwal Bulanan", desc: "Melihat jadwal kegiatan yang telah dibuat." },
       { icon: "file-text", title: "Surat Tugas & SPPD", desc: "Melihat surat tugas & SPPD dalam link Google Drive." },
       { icon: "check-square", title: "Monitoring Kegiatan", desc: "Memonitor kegiatan menggunakan lembar monitoring." }
     ]
@@ -183,12 +205,14 @@ const roleConfig = {
     title: "Fungsi Koordinator Kesehatan Jiwa",
     menu: [
       { icon: "home", text: "Dashboard", href: "dashboard.html" },
-      { icon: "calendar", text: "Kelola Jadwal Bulanan", href: "kelolajadwalbulanan.html" },
+      { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
+      { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
       { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
       { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" }
     ],
     cards: [
-      { icon: "calendar", title: "Kelola Jadwal Bulanan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "clock", title: "Jadwal Kegiatan", desc: "Menyusun & mengunggah jadwal kegiatan rutin setiap bulan." },
+      { icon: "calendar", title: "Jadwal Bulanan", desc: "Melihat jadwal kegiatan yang telah dibuat." },
       { icon: "file-text", title: "Surat Tugas & SPPD", desc: "Melihat surat tugas & SPPD dalam link Google Drive." },
       { icon: "check-square", title: "Monitoring Kegiatan", desc: "Memonitor kegiatan menggunakan lembar monitoring." }
     ]
@@ -202,12 +226,14 @@ const roleConfig = {
     title: "Fungsi Penanggung Jawab Program",
     menu: [
       { icon: "home", text: "Dashboard", href: "dashboard.html" },
-      { icon: "calendar", text: "Lihat Jadwal Bulanan", href: "kelolajadwalbulanan.html" },
+      { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
+      { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
       { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
       { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" }
     ],
     cards: [
-      { icon: "calendar", title: "Lihat Jadwal Bulanan", desc: "Melihat jadwal kegiatan program sesuai periode yang sudah diunggah." },
+      { icon: "clock", title: "Jadwal Kegiatan", desc: "Melihat jadwal kegiatan program sesuai periode yang sudah diunggah." },
+      { icon: "calendar", title: "Jadwal Bulanan", desc: "Mengirimkan jadwal kegiatan yang telah dibuat." },
       { icon: "file-text", title: "Surat Tugas & SPPD", desc: "Melihat surat tugas & SPPD dalam link Google Drive." },
       { icon: "check-square", title: "Monitoring Kegiatan", desc: "Memantau pelaksanaan kegiatan dan melaporkan hasil monitoring." }
     ]
@@ -218,13 +244,15 @@ const roleConfig = {
     title: "Fungsi Admin Tata Usaha",
     menu: [
       { icon: "home", text: "Dashboard", href: "dashboard.html" },
-      { icon: "calendar", text: "Lihat Jadwal Bulanan", href: "kelolajadwalbulanan.html" },
+      { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
+      { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
       { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
       { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" },
       { icon: "archive", text: "Laporan Realisasi Anggaran", href: "laporan.html" }
     ],
     cards: [
-      { icon: "calendar", title: "Lihat Jadwal Bulanan", desc: "Melihat jadwal kegiatan program sesuai periode yang sudah diunggah." },
+      { icon: "clock", title: "Jadwal Kegiatan", desc: "Melihat jadwal kegiatan program sesuai periode yang sudah diunggah." },
+      { icon: "calendar", title: "Jadwal Bulanan", desc: "Melihat jadwal kegiatan yang telah dibuat." },
       { icon: "file-text", title: "Surat Tugas & SPPD", desc: "Mengumpulkan surat tugas & SPPD dalam link Google Drive." },
       { icon: "check-square", title: "Monitoring Kegiatan", desc: "Memantau pelaksanaan kegiatan dan melaporkan hasil monitoring." },
       { icon: "archive", title: "Laporan Realisasi Anggaran", desc: "Memantau laporan realisasi anggaran" }
@@ -236,14 +264,16 @@ const roleConfig = {
     title: "Fungsi Operator SI-JIMITIUS",
     menu: [
       { icon: "home", text: "Dashboard", href: "dashboard.html" },
-      { icon: "calendar", text: "Lihat Jadwal Bulanan", href: "kelolajadwalbulanan.html" },
+      { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
+      { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
       { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
       { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" },
       { icon: "archive", text: "Laporan Realisasi Anggaran", href: "laporan.html" },
       { icon: "settings", text: "Pengaturan", href: "pengaturan.html" }
     ],
     cards: [
-      { icon: "calendar", title: "Lihat Jadwal Bulanan", desc: "Melihat jadwal kegiatan program sesuai periode yang sudah diunggah." },
+      { icon: "clock", title: "Jadwal Kegiatan", desc: "Melihat jadwal kegiatan program sesuai periode yang sudah diunggah." },
+      { icon: "calendar", title: "Jadwal Bulanan", desc: "Melihat jadwal kegiatan yang telah dibuat." },
       { icon: "file-text", title: "Surat Tugas & SPPD", desc: "Memantau surat tugas & SPPD dalam link Google Drive." },
       { icon: "check-square", title: "Monitoring Kegiatan", desc: "Memantau pelaksanaan kegiatan dan melaporkan hasil monitoring." },
       { icon: "archive", title: "Laporan Realisasi Anggaran", desc: "Memantau laporan realisasi anggaran" },
@@ -256,13 +286,15 @@ const roleConfig = {
     title: "Fungsi Bagian Keuangan",
     menu: [
       { icon: "home", text: "Dashboard", href: "dashboard.html" },
-      { icon: "calendar", text: "Lihat Jadwal Bulanan", href: "kelolajadwalbulanan.html" },
+      { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
+      { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
       { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
       { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" },
       { icon: "archive", text: "Laporan Realisasi Anggaran", href: "laporan.html" }
     ],
     cards: [
-      { icon: "calendar", title: "Lihat Jadwal Bulanan", desc: "Melihat jadwal kegiatan program sesuai periode yang sudah diunggah." },
+      { icon: "clock", title: "Jadwal Kegiatan", desc: "Melihat jadwal kegiatan program sesuai periode yang sudah diunggah." },
+      { icon: "calendar", title: "Jadwal Bulanan", desc: "Melihat jadwal kegiatan yang telah dibuat." },
       { icon: "file-text", title: "Surat Tugas & SPPD", desc: "Mengakses surat tugas & SPPD semua program." },
       { icon: "check-square", title: "Monitoring Kegiatan", desc: "Memantau pelaksanaan kegiatan dan melaporkan hasil monitoring." },
       { icon: "archive", title: "Laporan Realisasi Anggaran", desc: "Mengelola dan memeriksa laporan realisasi anggaran." }
@@ -274,13 +306,15 @@ const roleConfig = {
     title: "Fungsi Kepala UPT",
     menu: [
       { icon: "home", text: "Dashboard", href: "dashboard.html" },
-      { icon: "calendar", text: "Lihat Jadwal Bulanan", href: "kelolajadwalbulanan.html" },
+      { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
+      { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
       { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
       { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" },
       { icon: "archive", text: "Laporan Realisasi Anggaran", href: "laporan.html" }
     ],
     cards: [
-      { icon: "calendar", title: "Lihat Jadwal Bulanan", desc: "Melihat semua jadwal kegiatan program sesuai periode yang sudah diunggah." },
+      { icon: "clock", title: "Jadwal Kegiatan", desc: "Melihat semua jadwal kegiatan program sesuai periode yang sudah diunggah." },
+      { icon: "calendar", title: "Jadwal Bulanan", desc: "Melihat jadwal kegiatan yang telah dibuat." },
       { icon: "file-text", title: "Surat Tugas & SPPD", desc: "Mengakses surat tugas & SPPD semua program." },
       { icon: "check-square", title: "Monitoring Kegiatan", desc: "Memantau pelaksanaan kegiatan dan melaporkan hasil monitoring." },
       { icon: "archive", title: "Laporan Realisasi Anggaran", desc: "Memantau laporan realisasi anggaran seluruh program." }

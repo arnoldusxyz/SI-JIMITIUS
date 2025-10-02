@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title> Lihat Jadwal Bulanan — Kepala UPT Puskesmas Nelle</title>
+  <title>Jadwal Kegiatan  — PJ Program</title>
 
   <!-- Tambahkan favicon -->
   <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/arnoldjimmy115-bit/puskesmas-assets/main/hijau%20logo.png" />
@@ -88,7 +88,7 @@
       border: 1px solid #ccc;
     }
 
-    /* ✅ Tambahan agar tabel selalu responsif */
+      /* ✅ Pastikan tabel responsif */
     #jadwalTable {
       width: 100% !important;
       table-layout: auto;
@@ -97,7 +97,6 @@
       overflow-x: auto;
     }
   </style>
-  
 </head>
 <body class="font-body bg-light text-dark dark:bg-dark dark:text-light antialiased">
 
@@ -129,7 +128,7 @@
 
     <!-- Judul -->
     <h2 id="headerTitle" class="text-lg md:text-xl font-heading text-primary dark:text-secondary flex-1 text-center md:text-left">
-      Lihat Jadwal Bulanan
+      Lihat Jadwal Kegiatan
     </h2>
 
     <!-- Kontrol kanan -->
@@ -212,7 +211,7 @@ document.getElementById("userName").textContent = userName;
 document.getElementById("userRole").textContent = userRole;
 
 // 🔐 Aturan role halaman ini
-const allowedRoles = ["Kepala UPT Puskesmas Nelle"];
+const allowedRoles = ["Penanggung Jawab Program"];
 if (!allowedRoles.includes(userRole)) {
   localStorage.clear();
   Swal.mixin({
@@ -230,14 +229,14 @@ if (!allowedRoles.includes(userRole)) {
     });
 }
 
+// 📑 Menu sidebar
 const menuConfig = [
       { icon: "home", text: "Dashboard", href: "dashboard.html" },
-      { icon: "calendar", text: "Lihat Jadwal Bulanan", href: "kelolajadwalbulanan.html" },
+      { icon: "clock", text: "Jadwal Kegiatan", href: "jadwalkegiatan.html" },
+      { icon: "calendar", text: "Jadwal Bulanan", href: "jadwalbulanan.html" },
       { icon: "file-text", text: "Surat Tugas & SPPD", href: "surat.html" },
-      { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" },
-      { icon: "archive", text: "Laporan Realisasi Anggaran", href: "laporan.html" }
+      { icon: "check-square", text: "Monitoring Kegiatan", href: "monitoring.html" }
 ];
-
 const currentPage = window.location.pathname.split("/").pop();
 document.getElementById("menuContainer").innerHTML = menuConfig.map(m => {
   const isActive = currentPage.endsWith(m.href);
@@ -331,20 +330,15 @@ function logout() {
     const tahunSelect = document.getElementById("filterTahun");
     const bulanSelect = document.getElementById("filterBulan");
     const ukmSelect = document.getElementById("filterUkm");
-
     const currentYear = new Date().getFullYear();
+
     for (let y = currentYear - 1; y <= currentYear + 5; y++) {
       tahunSelect.innerHTML += `<option value="${y}">${y}</option>`;
     }
-
     bulanIndo.forEach((b, i) => {
       bulanSelect.innerHTML += `<option value="${String(i+1).padStart(2,"0")}">${b}</option>`;
     });
-
-    const ukmList = [
-      "Semua UKM","Promkes","Kesling","Gizi","KIA/KB","P2PM","TB & HIV","Kusta",
-      "IVA","PTM","UKS & UKGS","Kesehatan Tradisional","Kesehatan Jiwa"
-    ];
+    const ukmList = ["Semua UKM","Promkes","Kesling","Gizi","KIA/KB","P2PM","TB & HIV","Kusta","IVA","PTM","UKS & UKGS","Kesehatan Tradisional","Kesehatan Jiwa"];
     ukmList.forEach(u => {
       ukmSelect.innerHTML += `<option value="${u}">${u}</option>`;
     });
@@ -354,7 +348,7 @@ function logout() {
   $(document).ready(function() {
     dataTable = $('#jadwalTable').DataTable({
       responsive: { details: { type: 'column', target: 'tr' } },
-      scrollX: true, // ✅ biar tabel gak meluber di HP
+      scrollX: true,
       columnDefs: [ { className: 'control', orderable: false, targets: 0 } ],
       order: [1, 'asc'],
       pageLength: 10,
@@ -386,30 +380,44 @@ function logout() {
       if (!data.success) throw new Error(data.message || "Gagal mengambil data");
       if (!Array.isArray(data.files)) throw new Error("Data tidak tersedia");
 
-      // 🔄 Kosongkan & isi ulang tabel
+      // 🔄 Update tabel tanpa destroy
       dataTable.clear();
 
       const newRows = data.files.map(f => [
-        "", // kolom kontrol
+        "",
         f.tahun,
         bulanIndo[parseInt(f.bulan, 10)-1],
         f.ukm,
         f.fileName,
         f.koordinator,
-        `<a href="${f.fileUrl}" target="_blank" 
-          class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary text-white text-xs rounded-lg shadow hover:bg-secondary hover:text-dark transition">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
-            <polyline points="15 3 21 3 21 9"/>
-            <line x1="10" y1="14" x2="21" y2="3"/>
-          </svg>
-          Buka
-        </a>`
+        `
+        <div class="flex gap-2">
+          <a href="${f.fileUrl}" target="_blank" 
+            class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary text-white text-xs rounded-lg shadow hover:bg-secondary hover:text-dark transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+            Buka
+          </a>
+          <button onclick="deleteFile('${f.tahun}','${f.bulan}','${f.fileName}')" 
+            class="inline-flex items-center gap-2 px-3 py-1.5 bg-red-600 text-white text-xs rounded-lg shadow hover:bg-red-700 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
+              <path d="M10 11v6"/>
+              <path d="M14 11v6"/>
+              <path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
+            </svg>
+            Hapus
+          </button>
+        </div>
+        `
       ]);
 
-      dataTable.rows.add(newRows).draw();
 
-      // 🔧 Pastikan responsif
+      dataTable.rows.add(newRows).draw();
       dataTable.columns.adjust().responsive.recalc();
 
       Toast.fire({ icon: 'success', title: `Filter berhasil (${data.files.length} file ditemukan)` });
@@ -417,6 +425,62 @@ function logout() {
     } catch (err) {
       Toast.fire({ icon: 'error', title: err.message });
     }
+  }
+
+  // 🗑️ Delete File
+  async function deleteFile(tahun, bulan, fileName) {
+    Swal.fire({
+      title: `Hapus file "${fileName}"?`,
+      text: "File akan dipindahkan ke Sampah.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Ya, Hapus",
+      cancelButtonText: "Batal",
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#6c757d",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Yakin benar-benar mau hapus?",
+          html: `
+            <p class="mb-3">File <b>${fileName}</b> akan masuk ke Sampah Google Drive dan bisa dipulihkan.</p>
+            <div class="flex items-center justify-start gap-2">
+              <input type="checkbox" id="confirmDelete" />
+              <label for="confirmDelete">Saya paham file akan dipindahkan ke Sampah</label>
+            </div>
+          `,
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Ya, saya yakin",
+          cancelButtonText: "Batal",
+          confirmButtonColor: "#d33",
+          cancelButtonColor: "#6c757d",
+          preConfirm: () => {
+            if (!document.getElementById("confirmDelete").checked) {
+              Swal.showValidationMessage("Centang kotak konfirmasi terlebih dahulu");
+              return false;
+            }
+            return true;
+          }
+        }).then(async (finalResult) => {
+          if (finalResult.isConfirmed) {
+            try {
+              const res = await fetch(`${SCRIPT_URL}?action=delete&tahun=${tahun}&bulan=${bulan}&fileName=${encodeURIComponent(fileName)}&role=${encodeURIComponent(userRole)}`);
+              const data = await res.json();
+
+              if (data.success) {
+                Toast.fire({ icon: "success", title: data.message || "File berhasil dipindahkan ke Sampah" });
+                applyFilter();
+              } else {
+                throw new Error(data.message || "Gagal menghapus file");
+              }
+            } catch (err) {
+              Toast.fire({ icon: "error", title: err.message });
+            }
+          }
+        });
+      }
+    });
   }
 
   // 🚀 Load filter saat page onload
