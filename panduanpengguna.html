@@ -1,325 +1,638 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Panduan Pengguna — SI JIMITIUS</title>
-  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/arnoldjimmy115-bit/puskesmas-assets/main/hijau%20logo.png" />
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Panduan Pengguna — SI JIMITIUS</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://raw.githubusercontent.com/arnoldjimmy115-bit/puskesmas-assets/main/hijau%20logo.png"
+    />
 
-  <!-- Fonts & Tailwind -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: '#006b6d',
-            secondary: '#f2b643',
-            accent: '#a22e33',
-            dark: '#2f2f3b',
-            light: '#f9fafb'
+    <!-- Fonts & Tailwind -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#006b6d",
+              secondary: "#f2b643",
+              accent: "#a22e33",
+              dark: "#2f2f3b",
+              light: "#f9fafb",
+            },
+            fontFamily: {
+              heading: ["Poppins", "sans-serif"],
+              body: ["Roboto", "sans-serif"],
+            },
           },
-          fontFamily: {
-            heading: ['Poppins', 'sans-serif'],
-            body: ['Roboto', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
+        },
+      };
+    </script>
 
-  <!-- AOS -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <style>
-    body { overflow-x: hidden; } /* 🚫 cegah scroll horizontal */
-  </style>
-</head>
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <style>
+      body {
+        overflow-x: hidden;
+      } /* 🚫 cegah scroll horizontal */
+    </style>
+  </head>
 
-<body class="font-body bg-light text-gray-800 antialiased">
+  <body class="font-body bg-light text-gray-800 antialiased">
+    <!-- HERO -->
+    <section
+      id="hero"
+      class="relative flex flex-col items-center justify-center text-center pt-24 md:pt-32 pb-20 md:pb-28 bg-gradient-to-br from-primary via-dark to-accent text-white overflow-hidden"
+    >
+      <div
+        class="absolute -top-32 -left-32 w-[350px] h-[350px] bg-primary/20 rounded-full blur-3xl"
+      ></div>
+      <div class="relative z-10 max-w-3xl mx-auto px-6">
+        <img
+          src="https://raw.githubusercontent.com/arnoldjimmy115-bit/puskesmas-assets/main/putih%20logo.png"
+          alt="Logo"
+          class="w-32 h-32 mx-auto mb-6"
+          data-aos="zoom-in"
+        />
+        <h1
+          class="font-heading text-3xl md:text-5xl lg:text-6xl mb-6 leading-snug text-white drop-shadow-md"
+          data-aos="fade-up"
+        >
+          Panduan Pengguna <br />
+          <span
+            class="bg-clip-text text-transparent bg-gradient-to-r from-secondary to-accent font-bold"
+          >
+            SI JIMITIUS
+          </span>
+        </h1>
+        <p
+          class="text-sm md:text-lg text-gray-200"
+          data-aos="fade-up"
+          data-aos-delay="200"
+        >
+          Petunjuk singkat untuk memudahkan semua role dalam menggunakan sistem.
+        </p>
+      </div>
+    </section>
 
-<!-- HERO -->
-<section id="hero" class="relative flex flex-col items-center justify-center text-center pt-24 md:pt-32 pb-20 md:pb-28 
-bg-gradient-to-br from-primary via-dark to-accent text-white overflow-hidden">
-  <div class="absolute -top-32 -left-32 w-[350px] h-[350px] bg-primary/20 rounded-full blur-3xl"></div>
-  <div class="relative z-10 max-w-3xl mx-auto px-6">
-    <img src="https://raw.githubusercontent.com/arnoldjimmy115-bit/puskesmas-assets/main/putih%20logo.png" 
-         alt="Logo" class="w-32 h-32 mx-auto mb-6" data-aos="zoom-in">
-    <h1 class="font-heading text-3xl md:text-5xl lg:text-6xl mb-6 leading-snug text-white drop-shadow-md" data-aos="fade-up">
-      Panduan Pengguna <br>
-      <span class="bg-clip-text text-transparent bg-gradient-to-r from-secondary to-accent font-bold">
-        SI JIMITIUS
-      </span>
-    </h1>
-    <p class="text-sm md:text-lg text-gray-200" data-aos="fade-up" data-aos-delay="200">
-      Petunjuk singkat untuk memudahkan semua role dalam menggunakan sistem.
-    </p>
-  </div>
-</section>
+    <!-- TUJUAN -->
+    <section class="py-20 bg-secondary text-white relative overflow-hidden">
+      <div
+        class="absolute -bottom-20 -left-20 w-80 h-80 bg-white/20 rounded-full blur-3xl"
+      ></div>
+      <div
+        class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center px-6"
+      >
+        <div data-aos="fade-right">
+          <h2 class="text-4xl font-heading mb-4">🎯 Tujuan Aplikasi</h2>
+          <p class="text-lg leading-relaxed">
+            SI-JIMITIUS membantu
+            <span class="font-bold">mengelola jadwal</span>,
+            <span class="font-bold">monitoring kegiatan</span>, dan
+            <span class="font-bold">dokumen</span> secara cepat, rapi, dan
+            transparan.
+          </p>
+        </div>
+        <div class="flex justify-center" data-aos="zoom-in">
+          <!-- Target SVG -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-40 h-40 opacity-90"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <circle cx="12" cy="12" r="10" stroke-width="2" />
+            <circle cx="12" cy="12" r="6" stroke-width="2" />
+            <circle cx="12" cy="12" r="2" stroke-width="2" />
+          </svg>
+        </div>
+      </div>
+    </section>
 
-<!-- TUJUAN -->
-<section class="py-20 bg-secondary text-white relative overflow-hidden">
-  <div class="absolute -bottom-20 -left-20 w-80 h-80 bg-white/20 rounded-full blur-3xl"></div>
-  <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center px-6">
-    <div data-aos="fade-right">
-      <h2 class="text-4xl font-heading mb-4">🎯 Tujuan Aplikasi</h2>
-      <p class="text-lg leading-relaxed">SI-JIMITIUS membantu <span class="font-bold">mengelola jadwal</span>, <span class="font-bold">monitoring kegiatan</span>, dan <span class="font-bold">dokumen</span> secara cepat, rapi, dan transparan.</p>
-    </div>
-    <div class="flex justify-center" data-aos="zoom-in">
-      <!-- Target SVG -->
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-40 h-40 opacity-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <circle cx="12" cy="12" r="10" stroke-width="2"/>
-        <circle cx="12" cy="12" r="6" stroke-width="2"/>
-        <circle cx="12" cy="12" r="2" stroke-width="2"/>
-      </svg>
-    </div>
-  </div>
-</section>
+    <!-- PERSYARATAN -->
+    <section class="py-20 bg-gray-50 relative overflow-hidden">
+      <div
+        class="absolute -top-24 -right-24 w-72 h-72 bg-secondary/30 rounded-full blur-3xl"
+      ></div>
+      <div
+        class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center px-6"
+      >
+        <div data-aos="fade-right" class="flex justify-center">
+          <!-- CPU SVG -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-40 h-40 text-accent"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2" />
+            <rect x="9" y="9" width="6" height="6" stroke-width="2" />
+          </svg>
+        </div>
+        <div data-aos="fade-left">
+          <h2 class="text-3xl font-heading text-primary mb-6">
+            🖥️ Persyaratan Sistem
+          </h2>
+          <ul class="space-y-4 text-gray-700">
+            <li>💻 Laptop/PC atau smartphone modern</li>
+            <li>
+              🌐 Internet stabil minimal
+              <span class="text-accent font-semibold">3 Mbps</span>
+            </li>
+            <li>🔑 Akun resmi dari Operator</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-<!-- PERSYARATAN -->
-<section class="py-20 bg-gray-50 relative overflow-hidden">
-  <div class="absolute -top-24 -right-24 w-72 h-72 bg-secondary/30 rounded-full blur-3xl"></div>
-  <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center px-6">
-    <div data-aos="fade-right" class="flex justify-center">
-      <!-- CPU SVG -->
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-40 h-40 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2"/>
-        <rect x="9" y="9" width="6" height="6" stroke-width="2"/>
-      </svg>
-    </div>
-    <div data-aos="fade-left">
-      <h2 class="text-3xl font-heading text-primary mb-6">🖥️ Persyaratan Sistem</h2>
-      <ul class="space-y-4 text-gray-700">
-        <li>💻 Laptop/PC atau smartphone modern</li>
-        <li>🌐 Internet stabil minimal <span class="text-accent font-semibold">3 Mbps</span></li>
-        <li>🔑 Akun resmi dari Operator</li>
-      </ul>
-    </div>
-  </div>
-</section>
+    <!-- CARA MENGAKSES -->
+    <section class="py-20 bg-white relative overflow-hidden">
+      <div
+        class="absolute -bottom-20 -right-20 w-80 h-80 bg-primary/20 rounded-full blur-3xl"
+      ></div>
+      <div class="max-w-6xl mx-auto px-6 text-center">
+        <h2 class="text-3xl font-heading text-primary mb-12">
+          🚪 Cara Mengakses
+        </h2>
+        <div class="grid md:grid-cols-4 gap-6">
+          <!-- Globe -->
+          <div class="bg-gray-50 p-6 rounded-xl shadow" data-aos="fade-up">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-10 h-10 text-secondary mx-auto mb-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <circle cx="12" cy="12" r="10" stroke-width="2" />
+              <line x1="2" y1="12" x2="22" y2="12" stroke-width="2" />
+            </svg>
+            <p>Buka alamat aplikasi di browser.</p>
+          </div>
+          <!-- Login -->
+          <div
+            class="bg-gray-50 p-6 rounded-xl shadow"
+            data-aos="fade-up"
+            data-aos-delay="150"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-10 h-10 text-secondary mx-auto mb-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"
+                stroke-width="2"
+              />
+              <polyline points="10 17 15 12 10 7" stroke-width="2" />
+            </svg>
+            <p>Klik tombol Login.</p>
+          </div>
+          <!-- Lock -->
+          <div
+            class="bg-gray-50 p-6 rounded-xl shadow"
+            data-aos="fade-up"
+            data-aos-delay="300"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-10 h-10 text-secondary mx-auto mb-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <rect
+                x="3"
+                y="11"
+                width="18"
+                height="11"
+                rx="2"
+                stroke-width="2"
+              />
+              <path d="M7 11V7a5 5 0 0110 0v4" stroke-width="2" />
+            </svg>
+            <p>Masukkan username & password.</p>
+          </div>
+          <!-- Layout -->
+          <div
+            class="bg-gray-50 p-6 rounded-xl shadow"
+            data-aos="fade-up"
+            data-aos-delay="450"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-10 h-10 text-secondary mx-auto mb-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <rect x="3" y="3" width="7" height="7" stroke-width="2" />
+              <rect x="14" y="3" width="7" height="7" stroke-width="2" />
+              <rect x="14" y="14" width="7" height="7" stroke-width="2" />
+              <rect x="3" y="14" width="7" height="7" stroke-width="2" />
+            </svg>
+            <p>Akses dashboard sesuai peran Anda.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<!-- CARA MENGAKSES -->
-<section class="py-20 bg-white relative overflow-hidden">
-  <div class="absolute -bottom-20 -right-20 w-80 h-80 bg-primary/20 rounded-full blur-3xl"></div>
-  <div class="max-w-6xl mx-auto px-6 text-center">
-    <h2 class="text-3xl font-heading text-primary mb-12">🚪 Cara Mengakses</h2>
-    <div class="grid md:grid-cols-4 gap-6">
-      <!-- Globe -->
-      <div class="bg-gray-50 p-6 rounded-xl shadow" data-aos="fade-up">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-secondary mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <circle cx="12" cy="12" r="10" stroke-width="2"/>
-          <line x1="2" y1="12" x2="22" y2="12" stroke-width="2"/>
-        </svg>
-        <p>Buka alamat aplikasi di browser.</p>
-      </div>
-      <!-- Login -->
-      <div class="bg-gray-50 p-6 rounded-xl shadow" data-aos="fade-up" data-aos-delay="150">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-secondary mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4" stroke-width="2"/>
-          <polyline points="10 17 15 12 10 7" stroke-width="2"/>
-        </svg>
-        <p>Klik tombol Login.</p>
-      </div>
-      <!-- Lock -->
-      <div class="bg-gray-50 p-6 rounded-xl shadow" data-aos="fade-up" data-aos-delay="300">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-secondary mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <rect x="3" y="11" width="18" height="11" rx="2" stroke-width="2"/>
-          <path d="M7 11V7a5 5 0 0110 0v4" stroke-width="2"/>
-        </svg>
-        <p>Masukkan username & password.</p>
-      </div>
-      <!-- Layout -->
-      <div class="bg-gray-50 p-6 rounded-xl shadow" data-aos="fade-up" data-aos-delay="450">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-secondary mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <rect x="3" y="3" width="7" height="7" stroke-width="2"/>
-          <rect x="14" y="3" width="7" height="7" stroke-width="2"/>
-          <rect x="14" y="14" width="7" height="7" stroke-width="2"/>
-          <rect x="3" y="14" width="7" height="7" stroke-width="2"/>
-        </svg>
-        <p>Akses dashboard sesuai peran Anda.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    <!-- ROLE -->
+    <section
+      class="py-20 bg-gradient-to-r from-secondary/20 to-light relative overflow-hidden"
+    >
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-3xl font-heading text-center text-primary mb-12">
+          👥 Peran & Tugas
+        </h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          <!-- Koordinator UKM -->
+          <div
+            class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition"
+            data-aos="zoom-in"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-12 h-12 text-green-600 mb-4 mx-auto"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12zM2 20c0-3.3 2.7-6 6-6h8c3.3 0 6 2.7 6 6v2H2v-2z"
+                stroke-width="1.5"
+              />
+            </svg>
+            <h3 class="font-heading text-xl text-primary mb-2">
+              Koordinator UKM
+            </h3>
+            <p class="text-gray-700 text-sm">
+              Mengatur jadwal kegiatan UKM, memverifikasi laporan, dan
+              memastikan program berjalan sesuai rencana.
+            </p>
+          </div>
 
-<!-- ROLE -->
-<section class="py-20 bg-gradient-to-r from-secondary/20 to-light relative overflow-hidden">
-  <div class="max-w-6xl mx-auto px-6">
-    <h2 class="text-3xl font-heading text-center text-primary mb-12">👥 Peran & Tugas</h2>
-    <div class="grid md:grid-cols-3 gap-6">
+          <!-- Keuangan -->
+          <div
+            class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition"
+            data-aos="zoom-in"
+            data-aos-delay="150"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-12 h-12 text-yellow-600 mb-4 mx-auto"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                d="M12 1v22M5 6h14a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2z"
+                stroke-width="1.5"
+              />
+            </svg>
+            <h3 class="font-heading text-xl text-primary mb-2">Keuangan</h3>
+            <p class="text-gray-700 text-sm">
+              Mengelola anggaran, laporan keuangan, serta memantau realisasi
+              dana kegiatan UKM.
+            </p>
+          </div>
 
-      <!-- Koordinator UKM -->
-      <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition" data-aos="zoom-in">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-green-600 mb-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12zM2 20c0-3.3 2.7-6 6-6h8c3.3 0 6 2.7 6 6v2H2v-2z" stroke-width="1.5"/>
-        </svg>
-        <h3 class="font-heading text-xl text-primary mb-2">Koordinator UKM</h3>
-        <p class="text-gray-700 text-sm">Mengatur jadwal kegiatan UKM, memverifikasi laporan, dan memastikan program berjalan sesuai rencana.</p>
-      </div>
+          <!-- Admin TU -->
+          <div
+            class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition"
+            data-aos="zoom-in"
+            data-aos-delay="300"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-12 h-12 text-blue-600 mb-4 mx-auto"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <rect
+                x="3"
+                y="3"
+                width="18"
+                height="18"
+                rx="2"
+                stroke-width="1.5"
+              />
+              <path d="M3 9h18M9 21V9" stroke-width="1.5" />
+            </svg>
+            <h3 class="font-heading text-xl text-primary mb-2">Admin TU</h3>
+            <p class="text-gray-700 text-sm">
+              Mengelola surat, dokumen resmi, serta memastikan administrasi
+              digital tetap rapi.
+            </p>
+          </div>
 
-      <!-- Keuangan -->
-      <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition" data-aos="zoom-in" data-aos-delay="150">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-yellow-600 mb-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path d="M12 1v22M5 6h14a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2z" stroke-width="1.5"/>
-        </svg>
-        <h3 class="font-heading text-xl text-primary mb-2">Keuangan</h3>
-        <p class="text-gray-700 text-sm">Mengelola anggaran, laporan keuangan, serta memantau realisasi dana kegiatan UKM.</p>
-      </div>
+          <!-- Kepala UPT -->
+          <div
+            class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition"
+            data-aos="zoom-in"
+            data-aos-delay="450"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-12 h-12 text-red-600 mb-4 mx-auto"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <circle cx="12" cy="7" r="4" stroke-width="1.5" />
+              <path d="M5.5 21a7 7 0 0113 0H5.5z" stroke-width="1.5" />
+            </svg>
+            <h3 class="font-heading text-xl text-primary mb-2">Kepala UPT</h3>
+            <p class="text-gray-700 text-sm">
+              Melakukan pengawasan, memberi persetujuan, serta evaluasi kinerja
+              seluruh unit.
+            </p>
+          </div>
 
-      <!-- Admin TU -->
-      <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition" data-aos="zoom-in" data-aos-delay="300">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-blue-600 mb-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/>
-          <path d="M3 9h18M9 21V9" stroke-width="1.5"/>
-        </svg>
-        <h3 class="font-heading text-xl text-primary mb-2">Admin TU</h3>
-        <p class="text-gray-700 text-sm">Mengelola surat, dokumen resmi, serta memastikan administrasi digital tetap rapi.</p>
-      </div>
+          <!-- Operator -->
+          <div
+            class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition"
+            data-aos="zoom-in"
+            data-aos-delay="600"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-12 h-12 text-purple-600 mb-4 mx-auto"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <rect
+                x="2"
+                y="6"
+                width="20"
+                height="12"
+                rx="2"
+                stroke-width="1.5"
+              />
+              <path d="M6 18v2M18 18v2" stroke-width="1.5" />
+            </svg>
+            <h3 class="font-heading text-xl text-primary mb-2">Operator</h3>
+            <p class="text-gray-700 text-sm">
+              Membuat akun, memberikan akses user, serta membantu
+              troubleshooting teknis.
+            </p>
+          </div>
 
-      <!-- Kepala UPT -->
-      <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition" data-aos="zoom-in" data-aos-delay="450">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-red-600 mb-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <circle cx="12" cy="7" r="4" stroke-width="1.5"/>
-          <path d="M5.5 21a7 7 0 0113 0H5.5z" stroke-width="1.5"/>
-        </svg>
-        <h3 class="font-heading text-xl text-primary mb-2">Kepala UPT</h3>
-        <p class="text-gray-700 text-sm">Melakukan pengawasan, memberi persetujuan, serta evaluasi kinerja seluruh unit.</p>
+          <!-- Penanggung Jawab Program -->
+          <div
+            class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition"
+            data-aos="zoom-in"
+            data-aos-delay="750"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-12 h-12 text-accent mb-4 mx-auto"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path d="M12 14l9-5-9-5-9 5 9 5z" stroke-width="1.5" />
+              <path d="M12 14v7l9-5-9-5-9 5 9 5z" stroke-width="1.5" />
+            </svg>
+            <h3 class="font-heading text-xl text-primary mb-2">PJ Program</h3>
+            <p class="text-gray-700 text-sm">
+              Bertanggung jawab atas keberlangsungan program, serta menyusun
+              laporan akhir.
+            </p>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <!-- Operator -->
-      <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition" data-aos="zoom-in" data-aos-delay="600">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-purple-600 mb-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <rect x="2" y="6" width="20" height="12" rx="2" stroke-width="1.5"/>
-          <path d="M6 18v2M18 18v2" stroke-width="1.5"/>
-        </svg>
-        <h3 class="font-heading text-xl text-primary mb-2">Operator</h3>
-        <p class="text-gray-700 text-sm">Membuat akun, memberikan akses user, serta membantu troubleshooting teknis.</p>
+    <!-- NAVIGASI -->
+    <section class="py-20 bg-gray-50">
+      <div class="max-w-6xl mx-auto px-6 text-center">
+        <h2 class="text-3xl font-heading text-primary mb-12">
+          🧭 Navigasi Utama
+        </h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          <!-- Dashboard -->
+          <div class="bg-white p-6 rounded-xl shadow" data-aos="zoom-in">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-10 h-10 text-primary mx-auto mb-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path d="M3 12l2-2 4 4L21 4" stroke-width="2" />
+            </svg>
+            <p>Dashboard: ringkasan sesuai role.</p>
+          </div>
+          <!-- Kalender -->
+          <div
+            class="bg-white p-6 rounded-xl shadow"
+            data-aos="zoom-in"
+            data-aos-delay="150"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-10 h-10 text-primary mx-auto mb-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <rect
+                x="3"
+                y="4"
+                width="18"
+                height="18"
+                rx="2"
+                stroke-width="2"
+              />
+              <line x1="16" y1="2" x2="16" y2="6" stroke-width="2" />
+              <line x1="8" y1="2" x2="8" y2="6" stroke-width="2" />
+            </svg>
+            <p>Jadwal Bulanan: filter & unduh jadwal UKM.</p>
+          </div>
+          <!-- Monitoring -->
+          <div
+            class="bg-white p-6 rounded-xl shadow"
+            data-aos="zoom-in"
+            data-aos-delay="300"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-10 h-10 text-primary mx-auto mb-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <line x1="4" y1="20" x2="4" y2="10" stroke-width="2" />
+              <line x1="12" y1="20" x2="12" y2="4" stroke-width="2" />
+              <line x1="20" y1="20" x2="20" y2="14" stroke-width="2" />
+            </svg>
+            <p>Monitoring: laporan mingguan UKM.</p>
+          </div>
+          <!-- Surat -->
+          <div
+            class="bg-white p-6 rounded-xl shadow"
+            data-aos="zoom-in"
+            data-aos-delay="450"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-10 h-10 text-primary mx-auto mb-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path d="M4 4h16v16H4z" stroke-width="2" />
+              <path d="M4 4l8 8 8-8" stroke-width="2" />
+            </svg>
+            <p>Surat Tugas & SPPD.</p>
+          </div>
+          <!-- Laporan -->
+          <div
+            class="bg-white p-6 rounded-xl shadow"
+            data-aos="zoom-in"
+            data-aos-delay="600"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-10 h-10 text-primary mx-auto mb-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path d="M8 6h13M8 12h13M8 18h13" stroke-width="2" />
+              <rect x="3" y="6" width="2" height="2" />
+              <rect x="3" y="12" width="2" height="2" />
+              <rect x="3" y="18" width="2" height="2" />
+            </svg>
+            <p>Laporan Anggaran (khusus role).</p>
+          </div>
+          <!-- Pengaturan -->
+          <div
+            class="bg-white p-6 rounded-xl shadow"
+            data-aos="zoom-in"
+            data-aos-delay="750"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-10 h-10 text-primary mx-auto mb-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <circle cx="12" cy="12" r="3" stroke-width="2" />
+              <path
+                d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06A1.65 1.65 0 0015 19.4V21a2 2 0 01-2 2h-2a2 2 0 01-2-2v-1.6a1.65 1.65 0 00-1.82-.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15H3a2 2 0 01-2-2v-2a2 2 0 012-2h1.6a1.65 1.65 0 00.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.6V3a2 2 0 012-2h2a2 2 0 012 2v1.6a1.65 1.65 0 001.82.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9H21a2 2 0 012 2v2a2 2 0 01-2 2h-1.6z"
+              />
+            </svg>
+            <p>Pengaturan user & data UKM.</p>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <!-- Penanggung Jawab Program -->
-      <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition" data-aos="zoom-in" data-aos-delay="750">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-accent mb-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path d="M12 14l9-5-9-5-9 5 9 5z" stroke-width="1.5"/>
-          <path d="M12 14v7l9-5-9-5-9 5 9 5z" stroke-width="1.5"/>
-        </svg>
-        <h3 class="font-heading text-xl text-primary mb-2">PJ Program</h3>
-        <p class="text-gray-700 text-sm">Bertanggung jawab atas keberlangsungan program, serta menyusun laporan akhir.</p>
+    <!-- TROUBLESHOOTING -->
+    <section class="py-20 bg-white relative overflow-hidden">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-3xl font-heading text-center text-primary mb-12">
+          ⚠️ Troubleshooting
+        </h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-red-50 p-6 rounded-xl shadow" data-aos="fade-up">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-10 h-10 text-red-600 mb-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <circle cx="12" cy="12" r="10" stroke-width="2" />
+              <line x1="12" y1="8" x2="12" y2="12" stroke-width="2" />
+              <line x1="12" y1="16" x2="12" y2="16" stroke-width="2" />
+            </svg>
+            <p>Tidak bisa login? Hubungi Operator untuk reset akun.</p>
+          </div>
+          <div
+            class="bg-yellow-50 p-6 rounded-xl shadow"
+            data-aos="fade-up"
+            data-aos-delay="150"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-10 h-10 text-yellow-600 mb-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <circle cx="12" cy="12" r="10" stroke-width="2" />
+              <path d="M12 8v4l3 3" stroke-width="2" />
+            </svg>
+            <p>Jadwal kosong? Pastikan file sudah diunggah UKM.</p>
+          </div>
+          <div
+            class="bg-blue-50 p-6 rounded-xl shadow"
+            data-aos="fade-up"
+            data-aos-delay="300"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-10 h-10 text-blue-600 mb-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path d="M4 4v16h16V4H4z" stroke-width="2" />
+              <path d="M4 9h16" stroke-width="2" />
+            </svg>
+            <p>Tampilan error? Reload atau update browser.</p>
+          </div>
+        </div>
       </div>
+    </section>
 
-    </div>
-  </div>
-</section>
+    <!-- KONTAK -->
+    <section class="py-20 bg-gradient-to-r from-primary to-accent text-white">
+      <div class="max-w-3xl mx-auto text-center px-6" data-aos="fade-up">
+        <h2 class="text-3xl font-heading mb-6">📞 Informasi Kontak</h2>
+        <p class="mb-4">
+          Untuk bantuan lebih lanjut, hubungi melalui WhatsApp:
+        </p>
+        <a
+          href="https://wa.me/6282237946045"
+          target="_blank"
+          class="inline-flex items-center gap-3 bg-green-500 hover:bg-green-600 px-6 py-3 rounded-xl shadow-lg transition"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 32 32"
+            class="w-7 h-7 fill-white"
+          >
+            <path
+              d="M16 .6C7.6.6.7 7.5.7 15.9c0 2.9.8 5.7 2.2 8.1L0 32l8.3-2.6c2.3 1.3 5 2 7.7 2 8.4 0 15.3-6.9 15.3-15.3S24.4.6 16 .6zm0 27.9c-2.4 0-4.7-.6-6.8-1.9l-.5-.3-4.9 1.6 1.6-4.8-.3-.5c-1.3-2.1-2-4.4-2-6.8 0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9-5.8 12.9-12.9 12.9zm7.1-9.7c-.4-.2-2.3-1.1-2.6-1.2-.4-.2-.6-.2-.9.2-.3.4-1 1.2-1.2 1.4-.2.2-.5.3-.9.1s-1.7-.6-3.3-2c-1.2-1-2-2.3-2.2-2.7-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.3-.4.5-.6.2-.2.3-.4.4-.6.1-.2 0-.5 0-.7-.1-.2-.9-2.1-1.3-2.8-.4-.9-.7-.7-.9-.7h-.7c-.2 0-.7.1-1 .5s-1.3 1.3-1.3 3.1 1.3 3.6 1.5 3.8c.2.3 2.6 4 6.2 5.6.9.4 1.7.7 2.3.9 1 .3 1.9.3 2.6.2.8-.1 2.3-1 2.6-2 .3-1 .3-1.8.2-2 0-.1-.3-.2-.7-.4z"
+            />
+          </svg>
+          <span class="font-semibold">0822-3794-6045</span>
+        </a>
+      </div>
+    </section>
 
-
-<!-- NAVIGASI -->
-<section class="py-20 bg-gray-50">
-  <div class="max-w-6xl mx-auto px-6 text-center">
-    <h2 class="text-3xl font-heading text-primary mb-12">🧭 Navigasi Utama</h2>
-    <div class="grid md:grid-cols-3 gap-6">
-      <!-- Dashboard -->
-      <div class="bg-white p-6 rounded-xl shadow" data-aos="zoom-in">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-primary mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path d="M3 12l2-2 4 4L21 4" stroke-width="2"/>
-        </svg>
-        <p>Dashboard: ringkasan sesuai role.</p>
-      </div>
-      <!-- Kalender -->
-      <div class="bg-white p-6 rounded-xl shadow" data-aos="zoom-in" data-aos-delay="150">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-primary mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <rect x="3" y="4" width="18" height="18" rx="2" stroke-width="2"/>
-          <line x1="16" y1="2" x2="16" y2="6" stroke-width="2"/>
-          <line x1="8" y1="2" x2="8" y2="6" stroke-width="2"/>
-        </svg>
-        <p>Jadwal Bulanan: filter & unduh jadwal UKM.</p>
-      </div>
-      <!-- Monitoring -->
-      <div class="bg-white p-6 rounded-xl shadow" data-aos="zoom-in" data-aos-delay="300">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-primary mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <line x1="4" y1="20" x2="4" y2="10" stroke-width="2"/>
-          <line x1="12" y1="20" x2="12" y2="4" stroke-width="2"/>
-          <line x1="20" y1="20" x2="20" y2="14" stroke-width="2"/>
-        </svg>
-        <p>Monitoring: laporan mingguan UKM.</p>
-      </div>
-      <!-- Surat -->
-      <div class="bg-white p-6 rounded-xl shadow" data-aos="zoom-in" data-aos-delay="450">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-primary mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path d="M4 4h16v16H4z" stroke-width="2"/>
-          <path d="M4 4l8 8 8-8" stroke-width="2"/>
-        </svg>
-        <p>Surat Tugas & SPPD.</p>
-      </div>
-      <!-- Laporan -->
-      <div class="bg-white p-6 rounded-xl shadow" data-aos="zoom-in" data-aos-delay="600">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-primary mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path d="M8 6h13M8 12h13M8 18h13" stroke-width="2"/>
-          <rect x="3" y="6" width="2" height="2"/>
-          <rect x="3" y="12" width="2" height="2"/>
-          <rect x="3" y="18" width="2" height="2"/>
-        </svg>
-        <p>Laporan Anggaran (khusus role).</p>
-      </div>
-      <!-- Pengaturan -->
-      <div class="bg-white p-6 rounded-xl shadow" data-aos="zoom-in" data-aos-delay="750">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-primary mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <circle cx="12" cy="12" r="3" stroke-width="2"/>
-          <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06A1.65 1.65 0 0015 19.4V21a2 2 0 01-2 2h-2a2 2 0 01-2-2v-1.6a1.65 1.65 0 00-1.82-.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15H3a2 2 0 01-2-2v-2a2 2 0 012-2h1.6a1.65 1.65 0 00.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.6V3a2 2 0 012-2h2a2 2 0 012 2v1.6a1.65 1.65 0 001.82.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9H21a2 2 0 012 2v2a2 2 0 01-2 2h-1.6z"/>
-        </svg>
-        <p>Pengaturan user & data UKM.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TROUBLESHOOTING -->
-<section class="py-20 bg-white relative overflow-hidden">
-  <div class="max-w-6xl mx-auto px-6">
-    <h2 class="text-3xl font-heading text-center text-primary mb-12">⚠️ Troubleshooting</h2>
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="bg-red-50 p-6 rounded-xl shadow" data-aos="fade-up">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-red-600 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <circle cx="12" cy="12" r="10" stroke-width="2"/>
-          <line x1="12" y1="8" x2="12" y2="12" stroke-width="2"/>
-          <line x1="12" y1="16" x2="12" y2="16" stroke-width="2"/>
-        </svg>
-        <p>Tidak bisa login? Hubungi Operator untuk reset akun.</p>
-      </div>
-      <div class="bg-yellow-50 p-6 rounded-xl shadow" data-aos="fade-up" data-aos-delay="150">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-yellow-600 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <circle cx="12" cy="12" r="10" stroke-width="2"/>
-          <path d="M12 8v4l3 3" stroke-width="2"/>
-        </svg>
-        <p>Jadwal kosong? Pastikan file sudah diunggah UKM.</p>
-      </div>
-      <div class="bg-blue-50 p-6 rounded-xl shadow" data-aos="fade-up" data-aos-delay="300">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-blue-600 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path d="M4 4v16h16V4H4z" stroke-width="2"/>
-          <path d="M4 9h16" stroke-width="2"/>
-        </svg>
-        <p>Tampilan error? Reload atau update browser.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- KONTAK -->
-<section class="py-20 bg-gradient-to-r from-primary to-accent text-white">
-  <div class="max-w-3xl mx-auto text-center px-6" data-aos="fade-up">
-    <h2 class="text-3xl font-heading mb-6">📞 Informasi Kontak</h2>
-    <p class="mb-4">Untuk bantuan lebih lanjut, hubungi melalui WhatsApp:</p>
-    <a href="https://wa.me/6282237946045" target="_blank" class="inline-flex items-center gap-3 bg-green-500 hover:bg-green-600 px-6 py-3 rounded-xl shadow-lg transition">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="w-7 h-7 fill-white">
-        <path d="M16 .6C7.6.6.7 7.5.7 15.9c0 2.9.8 5.7 2.2 8.1L0 32l8.3-2.6c2.3 1.3 5 2 7.7 2 8.4 0 15.3-6.9 15.3-15.3S24.4.6 16 .6zm0 27.9c-2.4 0-4.7-.6-6.8-1.9l-.5-.3-4.9 1.6 1.6-4.8-.3-.5c-1.3-2.1-2-4.4-2-6.8 0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9-5.8 12.9-12.9 12.9zm7.1-9.7c-.4-.2-2.3-1.1-2.6-1.2-.4-.2-.6-.2-.9.2-.3.4-1 1.2-1.2 1.4-.2.2-.5.3-.9.1s-1.7-.6-3.3-2c-1.2-1-2-2.3-2.2-2.7-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.3-.4.5-.6.2-.2.3-.4.4-.6.1-.2 0-.5 0-.7-.1-.2-.9-2.1-1.3-2.8-.4-.9-.7-.7-.9-.7h-.7c-.2 0-.7.1-1 .5s-1.3 1.3-1.3 3.1 1.3 3.6 1.5 3.8c.2.3 2.6 4 6.2 5.6.9.4 1.7.7 2.3.9 1 .3 1.9.3 2.6.2.8-.1 2.3-1 2.6-2 .3-1 .3-1.8.2-2 0-.1-.3-.2-.7-.4z"/>
-      </svg>
-      <span class="font-semibold">0822-3794-6045</span>
-    </a>
-  </div>
-</section>
-
-<!-- Scripts -->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-  AOS.init({ once: true, duration: 800 });
-</script>
-</body>
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({ once: true, duration: 800 });
+    </script>
+  </body>
 </html>
